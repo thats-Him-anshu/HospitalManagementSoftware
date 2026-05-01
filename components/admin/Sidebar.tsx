@@ -42,7 +42,7 @@ export default function Sidebar() {
             src="/assets/logo.png"
             alt="NIDARSANAM HEALTH CARE"
             fill
-            className="object-contain brightness-0 invert" 
+            className="object-contain" 
             priority
           />
         </div>

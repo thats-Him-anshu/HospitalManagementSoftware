@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useForm, Controller } from "react-hook-form";
+import { Suspense, useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/shared/Card";
@@ -26,37 +26,58 @@ const patientSchema = z.object({
     relation: z.string().optional(),
   }).optional(),
   bloodGroup: z.string().optional(),
-  allergies: z.string().optional(), // Will split by comma on submit
-  chronicConditions: z.string().optional(), // Will split by comma on submit
+  allergies: z.string().optional(),
+  chronicConditions: z.string().optional(),
   admissionType: z.enum(["IP", "OP"]).optional(),
 });
 
 type PatientFormValues = z.infer<typeof patientSchema>;
 
-export default function NewPatientPage() {
+function NewPatientForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const leadId = searchParams.get("leadId");
+  const leadName = searchParams.get("name") || "";
+  const leadPhone = searchParams.get("phone") || "";
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const nameParts = leadName.split(" ");
+  const defaultFirstName = nameParts[0] || "";
+  const defaultLastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : "";
 
   const {
     register,
     handleSubmit,
-    control,
+    setValue,
     formState: { errors },
   } = useForm<PatientFormValues>({
     resolver: zodResolver(patientSchema) as any,
     defaultValues: {
+      firstName: defaultFirstName,
+      lastName: defaultLastName,
+      phone: leadPhone,
       gender: "Male",
       admissionType: "OP",
       emergencyContact: { name: "", phone: "", relation: "" },
     },
   });
 
+  useEffect(() => {
+    if (leadName) {
+      setValue("firstName", defaultFirstName);
+      setValue("lastName", defaultLastName || "Unknown"); // fallback if no last name
+    }
+    if (leadPhone) {
+      setValue("phone", leadPhone);
+    }
+  }, [leadName, leadPhone, setValue, defaultFirstName, defaultLastName]);
+
   const onSubmit = async (data: PatientFormValues) => {
     setLoading(true);
     setError("");
     try {
-      // Format arrays
       const formattedData = {
         ...data,
         allergies: data.allergies ? data.allergies.split(",").map(a => a.trim()).filter(Boolean) : [],
@@ -71,6 +92,17 @@ export default function NewPatientPage() {
 
       const result = await res.json();
       if (result.success) {
+        if (leadId) {
+          // Update the lead status to converted
+          await fetch(`/api/leads/${leadId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ 
+              status: "converted", 
+              convertedToPatient: result.data._id 
+            }),
+          });
+        }
         router.push(`/admin/patients/${result.data._id}`);
       } else {
         setError(result.error || "Failed to register patient");
@@ -85,7 +117,9 @@ export default function NewPatientPage() {
   return (
     <div className="max-w-4xl mx-auto space-y-6 pb-12">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-display font-semibold text-text">Register New Patient</h2>
+        <h2 className="text-2xl font-display font-semibold text-text">
+          {leadId ? "Convert Lead to Patient" : "Register New Patient"}
+        </h2>
         <Button variant="outline" onClick={() => router.back()}>Cancel</Button>
       </div>
 
@@ -194,10 +228,18 @@ export default function NewPatientPage() {
 
         <div className="flex justify-end pt-4">
           <Button type="submit" size="lg" isLoading={loading}>
-            Complete Registration
+            {leadId ? "Convert to Patient" : "Complete Registration"}
           </Button>
         </div>
       </form>
     </div>
+  );
+}
+
+export default function NewPatientPage() {
+  return (
+    <Suspense fallback={<div className="p-12 text-center text-text-muted">Loading...</div>}>
+      <NewPatientForm />
+    </Suspense>
   );
 }
