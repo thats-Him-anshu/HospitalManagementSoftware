@@ -13,7 +13,11 @@ import {
   IndianRupee, 
   Settings, 
   FileText,
-  LogOut
+  LogOut,
+  Receipt,
+  Wallet,
+  BarChart,
+  CalendarCheck
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 
@@ -24,7 +28,11 @@ const navItems = [
   { name: "Appointments", href: "/admin/appointments", icon: Calendar },
   { name: "IP/OP Management", href: "/admin/ip-op", icon: BedDouble },
   { name: "Rooms & Beds", href: "/admin/rooms", icon: BedDouble },
-  { name: "Doctors & Staff", href: "/admin/doctors", icon: Stethoscope },
+  { name: "Doctors & Staff", href: "/admin/staff", icon: Stethoscope },
+  { name: "Attendance", href: "/admin/attendance", icon: CalendarCheck },
+  { name: "Billing & Invoices", href: "/admin/billing", icon: Receipt },
+  { name: "Expenses", href: "/admin/expenses", icon: Wallet },
+  { name: "Reports", href: "/admin/reports", icon: BarChart },
   { name: "Treatment Pricing", href: "/admin/treatment-pricing", icon: IndianRupee },
   { name: "CMS Manager", href: "/admin/cms", icon: FileText },
   { name: "Settings", href: "/admin/settings", icon: Settings },

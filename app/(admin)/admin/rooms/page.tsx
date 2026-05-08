@@ -5,9 +5,13 @@ import { Plus, Edit2, Trash2, BedDouble } from "lucide-react";
 import { Button } from "@/components/shared/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/shared/Card";
 
+import RoomModal from "@/components/admin/RoomModal";
+
 export default function RoomsPage() {
   const [rooms, setRooms] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingRoom, setEditingRoom] = useState<any>(null);
 
   const fetchRooms = async () => {
     setLoading(true);
@@ -28,6 +32,26 @@ export default function RoomsPage() {
     fetchRooms();
   }, []);
 
+  const handleDelete = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this room? This action cannot be undone.")) return;
+    try {
+      const res = await fetch(`/api/rooms/${id}`, { method: "DELETE" });
+      const data = await res.json();
+      if (data.success) {
+        fetchRooms();
+      } else {
+        alert(data.error || "Failed to delete room");
+      }
+    } catch (error) {
+      console.error("Failed to delete room", error);
+    }
+  };
+
+  const handleEdit = (room: any) => {
+    setEditingRoom(room);
+    setIsModalOpen(true);
+  };
+
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("en-IN", {
       style: "currency",
@@ -43,7 +67,7 @@ export default function RoomsPage() {
           <h2 className="text-2xl font-display font-semibold text-text">Room & Bed Management</h2>
           <p className="text-sm text-text-muted mt-1">Manage IP wards and bed availability</p>
         </div>
-        <Button>
+        <Button onClick={() => { setEditingRoom(null); setIsModalOpen(true); }}>
           <Plus className="mr-2 h-4 w-4" /> Add Room
         </Button>
       </div>
@@ -62,7 +86,8 @@ export default function RoomsPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {rooms.map((room) => {
-            const availableBeds = room.beds.filter((b: any) => !b.isOccupied).length;
+            const beds = room.beds || [];
+            const availableBeds = beds.filter((b: any) => !b.isOccupied).length;
             
             return (
               <Card key={room._id} className="overflow-hidden flex flex-col">
@@ -75,10 +100,16 @@ export default function RoomsPage() {
                     <p className="text-sm font-medium text-text-muted mt-1 capitalize">{room.type.replace("-", " ")}</p>
                   </div>
                   <div className="flex items-center gap-1">
-                    <button className="p-1.5 text-text-muted hover:text-primary transition-colors rounded-md hover:bg-surface">
+                    <button 
+                      onClick={() => handleEdit(room)}
+                      className="p-1.5 text-text-muted hover:text-primary transition-colors rounded-md hover:bg-surface"
+                    >
                       <Edit2 className="h-4 w-4" />
                     </button>
-                    <button className="p-1.5 text-text-muted hover:text-danger transition-colors rounded-md hover:bg-danger/10">
+                    <button 
+                      onClick={() => handleDelete(room._id)}
+                      className="p-1.5 text-text-muted hover:text-danger transition-colors rounded-md hover:bg-danger/10"
+                    >
                       <Trash2 className="h-4 w-4" />
                     </button>
                   </div>
@@ -96,7 +127,7 @@ export default function RoomsPage() {
                   <div className="space-y-2 mt-auto">
                     <p className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-2">Beds Configuration</p>
                     <div className="grid grid-cols-2 gap-2">
-                      {room.beds.map((bed: any, idx: number) => (
+                      {beds.map((bed: any, idx: number) => (
                         <div 
                           key={idx} 
                           className={`flex items-center justify-between p-2 rounded-md border text-xs font-medium ${
@@ -120,6 +151,13 @@ export default function RoomsPage() {
           })}
         </div>
       )}
+
+      <RoomModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSave={fetchRooms}
+        initialData={editingRoom}
+      />
     </div>
   );
 }

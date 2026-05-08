@@ -12,6 +12,7 @@ export interface IUser extends Document {
   experience?: string;
   bio?: string;
   tagline?: string;
+  joiningDate?: Date;
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -34,6 +35,7 @@ const UserSchema = new Schema<IUser>(
     experience: { type: String },
     bio: { type: String },
     tagline: { type: String },
+    joiningDate: { type: Date },
     isActive: { type: Boolean, default: true },
   },
   { timestamps: true }

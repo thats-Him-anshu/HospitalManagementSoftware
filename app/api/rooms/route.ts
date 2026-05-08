@@ -11,10 +11,32 @@ export async function GET(req: Request) {
 
     await dbConnect();
     
-    // Using populate later for currentOccupants if we want to show who is in the room
-    const rooms = await Room.find().sort({ type: 1, roomNumber: 1 });
+    const rooms = await Room.find().sort({ roomType: 1, type: 1, roomNumber: 1 }).lean();
 
-    return NextResponse.json({ success: true, data: rooms });
+    const formattedRooms = rooms.map((room: any) => {
+      const capacity = room.capacity || room.totalBeds || 1;
+      const type = room.type || room.roomType || "general";
+      const beds = room.beds || [];
+      
+      // If beds array is empty but we have capacity, generate default beds
+      let finalBeds = beds;
+      if (finalBeds.length === 0) {
+        finalBeds = Array.from({ length: capacity }).map((_, i) => ({
+          bedNumber: `${room.roomNumber}-${String.fromCharCode(65 + i)}`,
+          isOccupied: false
+        }));
+      }
+
+      return {
+        ...room,
+        capacity,
+        type,
+        beds: finalBeds,
+        pricePerDay: room.pricePerDay || 0
+      };
+    });
+
+    return NextResponse.json({ success: true, data: formattedRooms });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
