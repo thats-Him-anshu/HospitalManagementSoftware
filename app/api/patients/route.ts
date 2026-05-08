@@ -28,10 +28,11 @@ export async function GET(req: Request) {
 
     const { searchParams } = new URL(req.url);
     const search = searchParams.get("search") || "";
+    const scope = searchParams.get("scope");
     
     await dbConnect();
 
-    const query = search ? {
+    const query: any = search ? {
       $or: [
         { patientId: { $regex: search, $options: "i" } },
         { firstName: { $regex: search, $options: "i" } },
@@ -39,6 +40,17 @@ export async function GET(req: Request) {
         { phone: { $regex: search, $options: "i" } },
       ]
     } : {};
+
+    // Filter by assigned doctor or therapist when scope=mine
+    if (scope === "mine") {
+      const userId = (session.user as any).id;
+      const role = (session.user as any).role;
+      if (role === "doctor") {
+        query.assignedDoctor = userId;
+      } else if (role === "therapist") {
+        query.assignedTherapist = userId;
+      }
+    }
     
     const patients = await Patient.find(query).sort({ createdAt: -1 });
 

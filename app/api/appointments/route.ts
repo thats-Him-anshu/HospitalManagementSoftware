@@ -12,6 +12,7 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const start = searchParams.get("start");
     const end = searchParams.get("end");
+    const scope = searchParams.get("scope");
     
     await dbConnect();
 
@@ -21,6 +22,11 @@ export async function GET(req: Request) {
         $gte: new Date(start as string), 
         $lte: new Date(end as string) 
       };
+    }
+
+    // Filter by logged-in doctor when scope=mine
+    if (scope === "mine") {
+      query.doctor = (session.user as any).id;
     }
     
     const appointments = await Appointment.find(query)

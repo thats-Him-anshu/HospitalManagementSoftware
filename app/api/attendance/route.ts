@@ -13,7 +13,13 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const month = searchParams.get("month");
     const year = searchParams.get("year");
-    const userId = searchParams.get("userId");
+    const scope = searchParams.get("scope");
+    let userId = searchParams.get("userId");
+
+    // When scope=mine, use logged-in user's ID
+    if (scope === "mine") {
+      userId = (session.user as any).id;
+    }
 
     await dbConnect();
     
@@ -42,11 +48,19 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session || (session.user as any).role !== "admin") {
+    if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const role = (session.user as any).role;
+    const selfId = (session.user as any).id;
+
     const body = await req.json();
+
+    // Non-admin users can only mark their own attendance
+    if (role !== "admin") {
+      body.user = selfId;
+    }
     await dbConnect();
 
     // Standardize date to midnight UTC to prevent time zone mismatch in query
