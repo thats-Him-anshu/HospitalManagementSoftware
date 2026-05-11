@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Heart, MapPin, Phone, Mail, Clock, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import { Heart, MapPin, Phone, Mail, Clock, Globe, Share2, Link as LinkIcon, MessageCircle } from "lucide-react";
 
 const quickLinks = [
   { href: "/", label: "Home" },
@@ -36,7 +36,7 @@ export default function Footer() {
               to wellness and recovery since 2005.
             </p>
             <div className="flex gap-4">
-              {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
+              {[Globe, Share2, LinkIcon, MessageCircle].map((Icon, i) => (
                 <a
                   key={i}
                   href="#"

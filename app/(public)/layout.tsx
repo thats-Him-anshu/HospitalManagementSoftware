@@ -17,9 +17,6 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-import Navbar from "@/components/public/Navbar";
-import Footer from "@/components/public/Footer";
-
 export default function PublicLayout({
   children,
 }: {

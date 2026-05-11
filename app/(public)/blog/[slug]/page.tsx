@@ -9,11 +9,10 @@ import {
   Calendar,
   Clock,
   Share2,
-  Facebook,
-  Twitter,
-  Linkedin,
-  Heart,
+  Globe,
+  Link as LinkIcon,
   MessageCircle,
+  Heart,
 } from "lucide-react";
 import ScrollReveal3D from "@/components/public/ScrollReveal3D";
 
@@ -185,7 +184,7 @@ export default function BlogPostPage() {
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-sm text-gray-500 mr-2">Share:</span>
-                      {[Facebook, Twitter, Linkedin].map((Icon, i) => (
+                      {[Globe, LinkIcon, MessageCircle].map((Icon, i) => (
                         <button
                           key={i}
                           className="w-9 h-9 rounded-full bg-earth-50 flex items-center justify-center hover:bg-medical-100 transition-colors"

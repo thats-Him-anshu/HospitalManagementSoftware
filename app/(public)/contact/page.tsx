@@ -132,9 +132,9 @@ export default function ContactPage() {
                         value={formData.name}
                         onChange={handleChange}
                         placeholder="John Doe"
-                        className={\`w-full pl-12 pr-4 py-3 rounded-xl border \${
+                        className={`w-full pl-12 pr-4 py-3 rounded-xl border ${
                           errors.name ? "border-red-300" : "border-gray-200"
-                        } focus:border-medical-500 focus:ring-2 focus:ring-medical-200 outline-none transition-all bg-white\`}
+                        } focus:border-medical-500 focus:ring-2 focus:ring-medical-200 outline-none transition-all bg-white`}
                       />
                     </div>
                     {errors.name && (
@@ -155,9 +155,9 @@ export default function ContactPage() {
                           value={formData.email}
                           onChange={handleChange}
                           placeholder="john@example.com"
-                          className={\`w-full pl-12 pr-4 py-3 rounded-xl border \${
+                          className={`w-full pl-12 pr-4 py-3 rounded-xl border ${
                             errors.email ? "border-red-300" : "border-gray-200"
-                          } focus:border-medical-500 focus:ring-2 focus:ring-medical-200 outline-none transition-all bg-white\`}
+                          } focus:border-medical-500 focus:ring-2 focus:ring-medical-200 outline-none transition-all bg-white`}
                         />
                       </div>
                       {errors.email && (
@@ -178,9 +178,9 @@ export default function ContactPage() {
                           value={formData.phone}
                           onChange={handleChange}
                           placeholder="+1 (234) 567-890"
-                          className={\`w-full pl-12 pr-4 py-3 rounded-xl border \${
+                          className={`w-full pl-12 pr-4 py-3 rounded-xl border ${
                             errors.phone ? "border-red-300" : "border-gray-200"
-                          } focus:border-medical-500 focus:ring-2 focus:ring-medical-200 outline-none transition-all bg-white\`}
+                          } focus:border-medical-500 focus:ring-2 focus:ring-medical-200 outline-none transition-all bg-white`}
                         />
                       </div>
                       {errors.phone && (
@@ -203,9 +203,9 @@ export default function ContactPage() {
                         onChange={handleChange}
                         rows={5}
                         placeholder="How can we help you?"
-                        className={\`w-full pl-12 pr-4 py-3 rounded-xl border \${
+                        className={`w-full pl-12 pr-4 py-3 rounded-xl border ${
                           errors.message ? "border-red-300" : "border-gray-200"
-                        } focus:border-medical-500 focus:ring-2 focus:ring-medical-200 outline-none transition-all bg-white resize-none\`}
+                        } focus:border-medical-500 focus:ring-2 focus:ring-medical-200 outline-none transition-all bg-white resize-none`}
                       />
                     </div>
                     {errors.message && (
