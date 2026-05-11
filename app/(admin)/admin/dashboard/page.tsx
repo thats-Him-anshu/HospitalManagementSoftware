@@ -56,7 +56,7 @@ export default function DashboardPage() {
 
   const statCards = [
     { title: "Appointments Today", value: data?.appointmentsToday || 0, icon: Calendar, color: "text-blue-600", bg: "bg-blue-100" },
-    { title: "New Leads", value: data?.leadsToday || 0, icon: Users, color: "text-orange-600", bg: "bg-orange-100" },
+    { title: "New Leads", value: data?.leadsNew || 0, icon: Users, color: "text-orange-600", bg: "bg-orange-100" },
     { title: "Active IP Patients", value: data?.activeIP || 0, icon: BedDouble, color: "text-purple-600", bg: "bg-purple-100" },
     { title: "Active OP Patients", value: data?.activeOP || 0, icon: TrendingUp, color: "text-teal-600", bg: "bg-teal-100" },
     { title: "Today's Revenue", value: formatCurrency(data?.todayRevenue || 0), icon: IndianRupee, color: "text-green-600", bg: "bg-green-100" },

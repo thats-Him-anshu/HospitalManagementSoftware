@@ -6,6 +6,8 @@ import Appointment from "@/models/Appointment";
 import Lead from "@/models/Lead";
 import Admission from "@/models/Admission";
 import Invoice from "@/models/Invoice";
+import Expense from "@/models/Expense";
+import Patient from "@/models/Patient";
 
 export async function GET() {
   try {
@@ -28,58 +30,27 @@ export async function GET() {
     startOfMonth.setHours(0, 0, 0, 0);
 
     // Queries
-    const appointmentsToday = await Appointment.countDocuments({
-      appointmentDate: { $gte: startOfToday, $lte: endOfToday },
-    });
-
-    const leadsToday = await Lead.countDocuments({
-      createdAt: { $gte: startOfToday, $lte: endOfToday },
-      status: "new",
-    });
-
-    const activeIP = await Admission.countDocuments({
-      admissionType: "IP",
-      status: "active",
-    });
-
-    const activeOP = await Admission.countDocuments({
-      admissionType: "OP",
-      status: "active",
-    });
+    const [appointmentsToday, leadsNew, activeIP, activeOP, totalPatients] = await Promise.all([
+      Appointment.countDocuments({ appointmentDate: { $gte: startOfToday, $lte: endOfToday } }),
+      Lead.countDocuments({ status: "new" }),
+      Admission.countDocuments({ admissionType: "IP", status: "active" }),
+      Admission.countDocuments({ admissionType: "OP", status: "active" }),
+      Patient.countDocuments({}),
+    ]);
 
     // Revenue
     const todayInvoices = await Invoice.aggregate([
-      {
-        $match: {
-          createdAt: { $gte: startOfToday, $lte: endOfToday },
-          paymentStatus: { $in: ["paid", "partial"] },
-        },
-      },
-      {
-        $group: {
-          _id: null,
-          total: { $sum: "$amountPaid" },
-        },
-      },
+      { $match: { createdAt: { $gte: startOfToday, $lte: endOfToday } } },
+      { $group: { _id: null, paid: { $sum: "$amountPaid" }, total: { $sum: "$totalAmount" } } },
     ]);
 
     const monthInvoices = await Invoice.aggregate([
-      {
-        $match: {
-          createdAt: { $gte: startOfMonth, $lte: endOfToday },
-          paymentStatus: { $in: ["paid", "partial"] },
-        },
-      },
-      {
-        $group: {
-          _id: null,
-          total: { $sum: "$amountPaid" },
-        },
-      },
+      { $match: { createdAt: { $gte: startOfMonth, $lte: endOfToday } } },
+      { $group: { _id: null, paid: { $sum: "$amountPaid" }, total: { $sum: "$totalAmount" } } },
     ]);
 
-    const todayRevenue = todayInvoices.length > 0 ? todayInvoices[0].total : 0;
-    const monthRevenue = monthInvoices.length > 0 ? monthInvoices[0].total : 0;
+    const todayRevenue = todayInvoices.length > 0 ? todayInvoices[0].paid : 0;
+    const monthRevenue = monthInvoices.length > 0 ? monthInvoices[0].paid : 0;
 
     // Monthly Chart Data (Last 6 Months)
     const sixMonthsAgo = new Date();
@@ -87,39 +58,37 @@ export async function GET() {
     sixMonthsAgo.setDate(1);
     sixMonthsAgo.setHours(0, 0, 0, 0);
 
-    const revenueByMonth = await Invoice.aggregate([
-      {
-        $match: {
-          createdAt: { $gte: sixMonthsAgo },
-          paymentStatus: { $in: ["paid", "partial"] },
-        },
-      },
-      {
-        $group: {
-          _id: {
-            month: { $month: "$createdAt" },
-            year: { $year: "$createdAt" },
-          },
-          revenue: { $sum: "$amountPaid" },
-        },
-      },
-      { $sort: { "_id.year": 1, "_id.month": 1 } },
+    const [revenueByMonth, expensesByMonth] = await Promise.all([
+      Invoice.aggregate([
+        { $match: { createdAt: { $gte: sixMonthsAgo } } },
+        { $group: { _id: { month: { $month: "$createdAt" }, year: { $year: "$createdAt" } }, revenue: { $sum: "$amountPaid" } } },
+        { $sort: { "_id.year": 1, "_id.month": 1 } },
+      ]),
+      Expense.aggregate([
+        { $match: { date: { $gte: sixMonthsAgo } } },
+        { $group: { _id: { month: { $month: "$date" }, year: { $year: "$date" } }, expenses: { $sum: "$amount" } } },
+        { $sort: { "_id.year": 1, "_id.month": 1 } },
+      ]),
     ]);
 
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    const chartData = revenueByMonth.map((item) => ({
-      name: `${months[item._id.month - 1]}`,
-      revenue: item.revenue,
-      expenses: Math.round(item.revenue * 0.4), // Mock expenses for now until expense module
-    }));
+    const chartData = revenueByMonth.map((item) => {
+      const exp = expensesByMonth.find((e) => e._id.month === item._id.month && e._id.year === item._id.year);
+      return {
+        name: `${months[item._id.month - 1]}`,
+        revenue: item.revenue,
+        expenses: exp ? exp.expenses : 0,
+      };
+    });
 
     return NextResponse.json({
       success: true,
       data: {
         appointmentsToday,
-        leadsToday,
+        leadsNew,
         activeIP,
         activeOP,
+        totalPatients,
         todayRevenue,
         monthRevenue,
         chartData,

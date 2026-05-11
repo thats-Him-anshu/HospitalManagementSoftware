@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Plus, Download, Mail, Eye } from "lucide-react";
+import { Plus, Download, Mail, Eye, MessageCircle } from "lucide-react";
 import { Button } from "@/components/shared/Button";
 import { Card } from "@/components/shared/Card";
 import { format } from "date-fns";
@@ -103,6 +103,24 @@ export default function BillingPage() {
     }
   };
 
+  const handleSendWhatsApp = async (invoice: any) => {
+    const phone = invoice.patient?.phone;
+    if (!phone) { alert("Patient does not have a phone number recorded."); return; }
+    if (!confirm(`Send invoice via WhatsApp to ${phone}?`)) return;
+    setProcessingId(invoice._id + "_wa");
+    try {
+      const res = await fetch(`/api/invoices/${invoice._id}/whatsapp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone }),
+      });
+      const data = await res.json();
+      if (data.success) { alert("WhatsApp message sent!"); fetchInvoices(); }
+      else alert(data.error || "Failed to send WhatsApp message");
+    } catch (e) { console.error(e); alert("Failed to send WhatsApp message"); }
+    finally { setProcessingId(null); }
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -166,6 +184,7 @@ export default function BillingPage() {
                         </span>
                         <div className="flex gap-1">
                           {inv.emailSent && <span className="text-[10px] bg-surface text-text-muted px-1.5 py-0.5 rounded border border-border">Email Sent</span>}
+                          {inv.whatsappSent && <span className="text-[10px] bg-green-50 text-green-700 px-1.5 py-0.5 rounded border border-green-200">WA Sent</span>}
                         </div>
                       </div>
                     </td>
@@ -186,6 +205,14 @@ export default function BillingPage() {
                           title="Send via Email"
                         >
                           <Mail className="h-4 w-4" />
+                        </button>
+                        <button 
+                          onClick={() => handleSendWhatsApp(inv)}
+                          disabled={processingId === inv._id + "_wa"}
+                          className="p-1.5 text-text-muted hover:text-green-600 transition-colors rounded-md hover:bg-green-50 disabled:opacity-50"
+                          title="Send via WhatsApp"
+                        >
+                          <MessageCircle className="h-4 w-4" />
                         </button>
                       </div>
                     </td>

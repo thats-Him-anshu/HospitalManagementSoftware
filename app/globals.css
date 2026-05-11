@@ -31,6 +31,18 @@
   .shadow-soft {
     box-shadow: 0 4px 24px rgba(74, 103, 65, 0.08);
   }
+  .text-balance {
+    text-wrap: balance;
+  }
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-xl;
+  }
+  .gradient-green {
+    background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 50%, #40916C 100%);
+  }
+  .gradient-soft {
+    background: linear-gradient(180deg, #F1F8F4 0%, #FAF8F5 100%);
+  }
 }
 
 /* Scroll animations */

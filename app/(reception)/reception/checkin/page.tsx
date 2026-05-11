@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/shared/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/shared/Card";
 import { LogIn, LogOut, Search } from "lucide-react";
@@ -12,6 +12,21 @@ export default function CheckInPage() {
   const [searching, setSearching] = useState(false);
   const [log, setLog] = useState<any[]>([]);
   const [message, setMessage] = useState("");
+
+
+  const fetchLogs = async () => {
+    try {
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      const res = await fetch(`/api/check-in?start=${today.toISOString()}&end=${new Date().toISOString()}`);
+      const data = await res.json();
+      if (data.success) setLog(data.data);
+    } catch (e) { console.error(e); }
+  };
+
+  useEffect(() => {
+    fetchLogs();
+  }, []);
 
   const handleSearch = async () => {
     if (!search.trim()) return;
@@ -33,12 +48,23 @@ export default function CheckInPage() {
     finally { setSearching(false); }
   };
 
-  const handleAction = (action: "check-in" | "check-out") => {
-    const now = new Date();
-    setLog(prev => [{ patient: `${patient.firstName} ${patient.lastName}`, patientId: patient.patientId, action, time: now }, ...prev]);
-    setMessage(`${patient.firstName} ${patient.lastName} ${action === "check-in" ? "checked in" : "checked out"} at ${format(now, "hh:mm a")}`);
-    setPatient(null);
-    setSearch("");
+  const handleAction = async (action: "check-in" | "check-out") => {
+    try {
+      const res = await fetch("/api/check-in", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ patientId: patient._id, action }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setMessage(`${patient.firstName} ${patient.lastName} ${action === "check-in" ? "checked in" : "checked out"} successfully.`);
+        fetchLogs();
+      }
+    } catch (e) { console.error(e); }
+    finally {
+      setPatient(null);
+      setSearch("");
+    }
   };
 
   return (
@@ -80,12 +106,12 @@ export default function CheckInPage() {
               {log.map((entry, i) => (
                 <div key={i} className="flex items-center justify-between p-3 rounded-md bg-surface">
                   <div>
-                    <span className="font-medium">{entry.patient}</span>
-                    <span className="text-xs text-text-muted ml-2">{entry.patientId}</span>
+                    <span className="font-medium">{entry.patient?.firstName} {entry.patient?.lastName}</span>
+                    <span className="text-xs text-text-muted ml-2">{entry.patient?.patientId}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${entry.action === "check-in" ? "bg-green-100 text-green-700" : "bg-orange-100 text-orange-700"}`}>{entry.action === "check-in" ? "Checked In" : "Checked Out"}</span>
-                    <span className="text-xs text-text-muted font-mono">{format(entry.time, "hh:mm a")}</span>
+                    <span className="text-xs text-text-muted font-mono">{format(new Date(entry.timestamp), "hh:mm a")}</span>
                   </div>
                 </div>
               ))}

@@ -17,7 +17,9 @@ import {
   Receipt,
   Wallet,
   BarChart,
-  CalendarCheck
+  CalendarCheck,
+  ClipboardList,
+  Activity
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 
@@ -33,6 +35,8 @@ const navItems = [
   { name: "Billing & Invoices", href: "/admin/billing", icon: Receipt },
   { name: "Expenses", href: "/admin/expenses", icon: Wallet },
   { name: "Reports", href: "/admin/reports", icon: BarChart },
+  { name: "Reception Report", href: "/admin/reception-report", icon: ClipboardList },
+  { name: "IP/OP Report", href: "/admin/ip-op-report", icon: Activity },
   { name: "Treatment Pricing", href: "/admin/treatment-pricing", icon: IndianRupee },
   { name: "CMS Manager", href: "/admin/cms", icon: FileText },
   { name: "Settings", href: "/admin/settings", icon: Settings },

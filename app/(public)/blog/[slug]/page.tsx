@@ -1,93 +1,265 @@
-import dbConnect from "@/lib/mongodb";
-import BlogPost from "@/models/BlogPost";
+"use client";
+
+import { useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import { Clock, ArrowLeft, Leaf } from "lucide-react";
-import { format } from "date-fns";
-import ShareButtons from "@/components/public/ShareButtons";
+import { motion } from "framer-motion";
+import {
+  ArrowLeft,
+  Calendar,
+  Clock,
+  Share2,
+  Facebook,
+  Twitter,
+  Linkedin,
+  Heart,
+  MessageCircle,
+} from "lucide-react";
+import ScrollReveal3D from "@/components/public/ScrollReveal3D";
 
-async function getData(slug: string) {
-  await dbConnect();
-  const post = await BlogPost.findOne({ slug, status: "published" }).populate("category", "name slug").populate("author", "name").lean();
-  if (!post) return null;
+const blogPosts = [
+  {
+    slug: "benefits-acupuncture-chronic-pain",
+    title: "The Science Behind Acupuncture for Chronic Pain Relief",
+    content: `
+      <p>Acupuncture, a cornerstone of Traditional Chinese Medicine, has been practiced for thousands of years. Today, modern science is catching up to what practitioners have long known: acupuncture is a powerful tool for managing chronic pain.</p>
+      
+      <h3>How Does Acupuncture Work?</h3>
+      <p>Research suggests that acupuncture stimulates the nervous system, triggering the release of endorphins and other neurochemicals. These natural painkillers help reduce inflammation and promote healing throughout the body.</p>
+      
+      <h3>Conditions Treated</h3>
+      <p>Studies have shown acupuncture to be effective for lower back pain, osteoarthritis, migraines, and fibromyalgia. At Nidarsanam, we've seen remarkable results in patients who had previously found little relief from conventional treatments.</p>
+      
+      <h3>The Nidarsanam Approach</h3>
+      <p>Our licensed acupuncturists combine traditional techniques with modern understanding of anatomy and physiology. Each treatment is tailored to the individual, ensuring optimal results.</p>
+      
+      <p>Whether you're dealing with persistent back pain, joint issues, or neuropathic pain, acupuncture may offer the relief you've been seeking.</p>
+    `,
+    image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1200&h=600&fit=crop",
+    date: "May 5, 2026",
+    category: "Acupuncture",
+    readTime: "5 min read",
+    author: "Dr. Sarah Lin",
+    authorRole: "Lead Acupuncturist",
+    authorImage: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=100&h=100&fit=crop",
+  },
+  {
+    slug: "holistic-approach-mental-health",
+    title: "A Holistic Approach to Mental Health and Wellness",
+    content: `<p>Mental health is not just about the mind—it's about the entire body. At Nidarsanam, we believe in treating mental health through an integrative lens.</p>`,
+    image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=600&fit=crop",
+    date: "April 28, 2026",
+    category: "Wellness",
+    readTime: "7 min read",
+    author: "Dr. Michael Chen",
+    authorRole: "Integrative Medicine",
+    authorImage: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=100&h=100&fit=crop",
+  },
+  {
+    slug: "yoga-therapy-recovery",
+    title: "Yoga Therapy: A Path to Physical Recovery",
+    content: `<p>Yoga therapy goes beyond typical yoga classes. It's a personalized approach to healing that addresses specific physical conditions and injuries.</p>`,
+    image: "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=1200&h=600&fit=crop",
+    date: "April 20, 2026",
+    category: "Yoga Therapy",
+    readTime: "6 min read",
+    author: "Emma Williams",
+    authorRole: "Yoga Therapist",
+    authorImage: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
+  },
+];
 
-  const related = await BlogPost.find({
-    _id: { $ne: (post as any)._id },
-    status: "published",
-    category: (post as any).category?._id,
-  }).limit(3).lean();
+const relatedPosts = [
+  {
+    slug: "naturopathy-immune-system",
+    title: "Boosting Your Immune System Naturally",
+    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=250&fit=crop",
+    date: "April 15, 2026",
+  },
+  {
+    slug: "understanding-physiotherapy",
+    title: "Understanding Physiotherapy: Beyond Exercise",
+    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=250&fit=crop",
+    date: "April 8, 2026",
+  },
+  {
+    slug: "pain-management-techniques",
+    title: "Modern Pain Management Techniques",
+    image: "https://images.unsplash.com/photo-1559757175-5700dde675bc?w=400&h=250&fit=crop",
+    date: "March 30, 2026",
+  },
+];
 
-  return { post: JSON.parse(JSON.stringify(post)), related: JSON.parse(JSON.stringify(related)) };
-}
-
-export default async function BlogPostPage({ params }: { params: { slug: string } }) {
-  const data = await getData(params.slug);
-  if (!data) notFound();
-
-  const { post, related } = data;
+export default function BlogPostPage() {
+  const params = useParams();
+  const slug = params.slug as string;
+  
+  const post = blogPosts.find((p) => p.slug === slug) || blogPosts[0];
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative min-h-[50vh] flex items-end overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-bg-dark via-primary to-bg-dark" />
-        {post.featuredImage && <Image src={post.featuredImage} alt={post.title} fill className="object-cover opacity-30" />}
-        <div className="absolute inset-0 bg-gradient-to-t from-bg-dark via-transparent to-bg-dark/50" />
-        <div className="relative z-10 max-w-3xl mx-auto px-4 pb-12 pt-32">
-          {post.category && <span className="inline-block bg-accent text-bg-dark text-xs uppercase tracking-wider px-3 py-1 rounded-full font-semibold mb-4">{post.category.name}</span>}
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-white leading-tight">{post.title}</h1>
-          <div className="flex items-center gap-4 mt-6 text-sm text-white/60">
-            <span>{format(new Date(post.createdAt), "dd MMMM yyyy")}</span>
-            <span className="flex items-center gap-1"><Clock className="h-3.5 w-3.5" />{post.readTime} min read</span>
-            {post.author && <span>By {post.author.name}</span>}
-          </div>
-        </div>
-      </section>
-
-      {/* Content */}
-      <section className="py-16 bg-white">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="blog-content text-text leading-relaxed" dangerouslySetInnerHTML={{ __html: post.content }} />
-
-          {/* Tags */}
-          {post.tags && post.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mt-10 pt-6 border-t border-border">
-              {post.tags.map((tag: string) => (
-                <span key={tag} className="px-3 py-1 bg-surface rounded-full text-xs text-text-muted font-medium">#{tag}</span>
-              ))}
+      <section className="pt-32 pb-16 gradient-green">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <Link
+              href="/blog"
+              className="inline-flex items-center gap-2 text-earth-200 hover:text-white transition-colors mb-6"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to Blog
+            </Link>
+            <span className="inline-block px-3 py-1 rounded-full bg-white/10 text-medical-300 text-sm font-medium mb-4">
+              {post.category}
+            </span>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+              {post.title}
+            </h1>
+            <div className="flex flex-wrap items-center gap-6 text-earth-200">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full overflow-hidden">
+                  <Image
+                    src={post.authorImage}
+                    alt={post.author}
+                    width={40}
+                    height={40}
+                    className="object-cover"
+                  />
+                </div>
+                <div>
+                  <div className="font-medium text-white">{post.author}</div>
+                  <div className="text-sm">{post.authorRole}</div>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 text-sm">
+                <span className="flex items-center gap-1">
+                  <Calendar className="w-4 h-4" />
+                  {post.date}
+                </span>
+                <span className="flex items-center gap-1">
+                  <Clock className="w-4 h-4" />
+                  {post.readTime}
+                </span>
+              </div>
             </div>
-          )}
-
-          {/* Share */}
-          <div className="mt-8 pt-6 border-t border-border">
-            <p className="text-sm font-medium text-text mb-3">Share this article</p>
-            <ShareButtons title={post.title} slug={post.slug} />
-          </div>
-
-          <Link href="/blog" className="inline-flex items-center gap-2 mt-8 text-sm font-medium text-primary hover:text-accent transition-colors"><ArrowLeft className="h-4 w-4" />Back to Blog</Link>
+          </motion.div>
         </div>
       </section>
 
-      {/* Related */}
-      {related.length > 0 && (
-        <section className="py-16 bg-bg bg-leaf-pattern">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl font-display font-bold text-text mb-8">Related Articles</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {related.map((r: any) => (
-                <Link key={r._id} href={`/blog/${r.slug}`} className="group bg-white rounded-2xl overflow-hidden border border-border/50 hover:shadow-lg transition-all">
-                  <div className="relative h-40 bg-surface">{r.featuredImage ? <Image src={r.featuredImage} alt={r.title} fill className="object-cover" /> : <div className="flex items-center justify-center h-full"><Leaf className="h-8 w-8 text-text-muted/20" /></div>}</div>
-                  <div className="p-4">
-                    <h3 className="font-display font-bold text-text group-hover:text-primary transition-colors line-clamp-2">{r.title}</h3>
-                    <p className="text-xs text-text-muted mt-2">{r.readTime} min read</p>
+      <article className="py-16 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ScrollReveal3D>
+            <div className="relative h-64 md:h-96 rounded-2xl overflow-hidden mb-12 shadow-2xl">
+              <Image
+                src={post.image}
+                alt={post.title}
+                fill
+                className="object-cover"
+              />
+            </div>
+          </ScrollReveal3D>
+
+          <div className="grid lg:grid-cols-3 gap-12">
+            <div className="lg:col-span-2">
+              <ScrollReveal3D>
+                <div
+                  className="prose prose-lg max-w-none prose-headings:text-medical-900 prose-headings:font-display prose-p:text-gray-600 prose-a:text-medical-600 prose-strong:text-medical-800"
+                  dangerouslySetInnerHTML={{ __html: post.content }}
+                />
+              </ScrollReveal3D>
+
+              <ScrollReveal3D delay={0.2}>
+                <div className="mt-12 pt-8 border-t border-gray-100">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <button className="flex items-center gap-2 text-gray-500 hover:text-red-500 transition-colors">
+                        <Heart className="w-5 h-5" />
+                        <span className="text-sm">Like</span>
+                      </button>
+                      <button className="flex items-center gap-2 text-gray-500 hover:text-medical-600 transition-colors">
+                        <MessageCircle className="w-5 h-5" />
+                        <span className="text-sm">Comment</span>
+                      </button>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-gray-500 mr-2">Share:</span>
+                      {[Facebook, Twitter, Linkedin].map((Icon, i) => (
+                        <button
+                          key={i}
+                          className="w-9 h-9 rounded-full bg-earth-50 flex items-center justify-center hover:bg-medical-100 transition-colors"
+                        >
+                          <Icon className="w-4 h-4 text-gray-600" />
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                </Link>
-              ))}
+                </div>
+              </ScrollReveal3D>
             </div>
+
+            {/* Sidebar */}
+            <aside className="space-y-8">
+              <ScrollReveal3D delay={0.1}>
+                <div className="p-6 rounded-2xl bg-medical-50 border border-medical-100">
+                  <h3 className="font-bold text-medical-900 mb-4">About the Author</h3>
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 rounded-full overflow-hidden">
+                      <Image
+                        src={post.authorImage}
+                        alt={post.author}
+                        width={48}
+                        height={48}
+                        className="object-cover"
+                      />
+                    </div>
+                    <div>
+                      <div className="font-semibold text-medical-900">{post.author}</div>
+                      <div className="text-sm text-gray-600">{post.authorRole}</div>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-600">
+                    Expert in integrative medicine with over 15 years of clinical experience.
+                  </p>
+                </div>
+              </ScrollReveal3D>
+
+              <ScrollReveal3D delay={0.2}>
+                <div>
+                  <h3 className="font-bold text-medical-900 mb-4">Related Articles</h3>
+                  <div className="space-y-4">
+                    {relatedPosts.map((related) => (
+                      <Link
+                        key={related.slug}
+                        href={`/blog/${related.slug}`}
+                        className="flex gap-4 group"
+                      >
+                        <div className="relative w-20 h-20 rounded-lg overflow-hidden shrink-0">
+                          <Image
+                            src={related.image}
+                            alt={related.title}
+                            fill
+                            className="object-cover group-hover:scale-110 transition-transform"
+                          />
+                        </div>
+                        <div>
+                          <h4 className="text-sm font-semibold text-medical-900 group-hover:text-medical-600 transition-colors line-clamp-2">
+                            {related.title}
+                          </h4>
+                          <span className="text-xs text-gray-500 mt-1 block">
+                            {related.date}
+                          </span>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </ScrollReveal3D>
+            </aside>
           </div>
-        </section>
-      )}
+        </div>
+      </article>
     </>
   );
 }
