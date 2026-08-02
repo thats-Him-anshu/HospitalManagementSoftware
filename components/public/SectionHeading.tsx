@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import ScrollReveal3D from "./ScrollReveal3D";
 
 interface SectionHeadingProps {
   subtitle?: string;
@@ -18,38 +17,54 @@ export default function SectionHeading({
   align = "center",
   light = false,
 }: SectionHeadingProps) {
+  const isCenter = align === "center";
+
   return (
-    <ScrollReveal3D
-      className={`mb-12 md:mb-16 ${align === "center" ? "text-center" : "text-left"}`}
-    >
+    <div className={`mb-12 md:mb-16 ${isCenter ? "text-center" : "text-left"}`}>
       {subtitle && (
-        <motion.span
-          initial={{ opacity: 0, y: 20 }}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className={`inline-block text-sm font-semibold tracking-widest uppercase mb-3 ${
-            light ? "text-medical-300" : "text-medical-600"
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-4 border ${
+            isCenter ? "mx-auto" : ""
+          } ${
+            light
+              ? "bg-white/10 text-medical-200 border-white/20 backdrop-blur-md"
+              : "bg-medical-50 text-medical-800 border-medical-200/80"
           }`}
         >
-          {subtitle}
-        </motion.span>
+          <span className={`w-2 h-2 rounded-full animate-pulse ${light ? "bg-medical-300" : "bg-medical-600"}`} />
+          <span>{subtitle}</span>
+        </motion.div>
       )}
-      <h2
-        className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 ${
+
+      <motion.h2
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
+        className={`text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight font-display ${
           light ? "text-white" : "text-medical-900"
         }`}
       >
         {title}
-      </h2>
+      </motion.h2>
+
       {description && (
-        <p
-          className={`text-lg max-w-2xl ${
-            align === "center" ? "mx-auto" : ""
-          } ${light ? "text-earth-100" : "text-gray-600"}`}
+        <motion.p
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          className={`text-base sm:text-lg mt-4 max-w-2xl leading-relaxed ${
+            isCenter ? "mx-auto" : ""
+          } ${light ? "text-medical-100/90" : "text-gray-600"}`}
         >
           {description}
-        </p>
+        </motion.p>
       )}
-    </ScrollReveal3D>
+    </div>
   );
 }

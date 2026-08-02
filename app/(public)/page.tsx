@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import ScrollReveal3D from "@/components/public/ScrollReveal3D";
 import SectionHeading from "@/components/public/SectionHeading";
+import GlowCard from "@/components/public/GlowCard";
 
 const treatments = [
   {
@@ -119,33 +120,55 @@ const features = [
 export default function HomePage() {
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center overflow-hidden gradient-hero pt-28 pb-20">
-        <div className="absolute inset-0 opacity-15">
-          <div className="absolute top-10 left-10 w-96 h-96 bg-medical-300 rounded-full blur-3xl" />
-          <div className="absolute bottom-10 right-10 w-[30rem] h-[30rem] bg-medical-500 rounded-full blur-3xl" />
+      {/* Hero Section - Agency Fluid Motion & Depth */}
+      <section className="relative min-h-[92vh] flex items-center overflow-hidden gradient-hero pt-28 pb-20">
+        {/* Animated Light Mesh */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <motion.div
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.15, 0.25, 0.15],
+              x: [0, 30, 0],
+              y: [0, -20, 0],
+            }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute -top-20 -left-20 w-[32rem] h-[32rem] bg-medical-400 rounded-full blur-[100px]"
+          />
+          <motion.div
+            animate={{
+              scale: [1, 1.15, 1],
+              opacity: [0.1, 0.2, 0.1],
+              x: [0, -40, 0],
+            }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute bottom-0 right-0 w-[36rem] h-[36rem] bg-medical-600 rounded-full blur-[120px]"
+          />
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 z-10">
           <div className="grid lg:grid-cols-12 gap-12 items-center">
+            {/* Left Content */}
             <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="lg:col-span-7"
             >
               <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.15 }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-medical-100 text-xs sm:text-sm font-medium mb-6 shadow-sm"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-medical-100 text-xs sm:text-sm font-semibold mb-6 shadow-sm"
               >
-                <Sparkles className="w-4 h-4 text-medical-300" />
+                <span className="w-2 h-2 rounded-full bg-medical-300 animate-ping" />
                 <span>India's Leading Naturopathy Centre</span>
               </motion.div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.15] mb-6 font-display tracking-tight">
-                The Real Path to <span className="text-medical-300 underline decoration-medical-400/40 decoration-wavy">Health</span>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.14] mb-6 font-display tracking-tight">
+                The Real Path to{" "}
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-medical-300 via-medical-200 to-white font-extrabold">
+                  Health
+                </span>
               </h1>
 
               <p className="text-base sm:text-lg text-medical-100/90 mb-8 max-w-2xl leading-relaxed">
@@ -153,20 +176,25 @@ export default function HomePage() {
               </p>
 
               <div className="flex flex-wrap items-center gap-4">
-                <Link
-                  href="/appointments"
-                  className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-white text-medical-900 font-bold text-sm shadow-lg hover:shadow-xl hover:bg-medical-50 hover:scale-[1.02] active:scale-[0.98] transition-all"
-                >
-                  <Calendar className="w-4 h-4 text-medical-700" />
-                  Book Consultation
-                </Link>
-                <a
-                  href="tel:9952338765"
-                  className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full border-2 border-white/30 text-white font-semibold text-sm hover:bg-white/10 transition-all"
-                >
-                  <Phone className="w-4 h-4 text-medical-300" />
-                  Call: 9952338765
-                </a>
+                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                  <Link
+                    href="/appointments"
+                    className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-white text-medical-950 font-bold text-sm shadow-xl hover:bg-medical-50 transition-all"
+                  >
+                    <Calendar className="w-4 h-4 text-medical-700" />
+                    Book Consultation
+                  </Link>
+                </motion.div>
+
+                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                  <a
+                    href="tel:9952338765"
+                    className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full border-2 border-white/30 text-white font-semibold text-sm hover:bg-white/10 transition-all backdrop-blur-sm"
+                  >
+                    <Phone className="w-4 h-4 text-medical-300" />
+                    Call: 9952338765
+                  </a>
+                </motion.div>
               </div>
 
               {/* Trust Indicators */}
@@ -186,15 +214,20 @@ export default function HomePage() {
               </div>
             </motion.div>
 
-            {/* Hero Doctor Card */}
+            {/* Right Doctor Portrait Card */}
             <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.9, delay: 0.2 }}
+              initial={{ opacity: 0, y: 40, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
               className="lg:col-span-5 relative"
             >
-              <div className="relative mx-auto max-w-md lg:max-w-none">
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white/10 bg-medical-900">
+              <motion.div
+                whileHover={{ y: -8, rotateY: 2 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                style={{ perspective: 1000 }}
+                className="relative mx-auto max-w-md lg:max-w-none"
+              >
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white/15 bg-medical-950">
                   <Image
                     src="/assets/doctor-nidarsin.jpg"
                     alt="Dr. Nidarsin at Nidarsanam Health Care"
@@ -203,7 +236,7 @@ export default function HomePage() {
                     className="object-cover w-full h-[480px] sm:h-[540px]"
                     priority
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-medical-900/90 via-medical-900/20 to-transparent flex flex-col justify-end p-6">
+                  <div className="absolute inset-0 bg-gradient-to-t from-medical-950 via-medical-950/20 to-transparent flex flex-col justify-end p-6">
                     <span className="text-xs font-semibold uppercase tracking-wider text-medical-300">Chief Naturopath</span>
                     <h3 className="text-2xl font-bold text-white">Dr. Nidarsin</h3>
                     <p className="text-xs text-medical-100/90 mt-1">BNYS (Bachelor of Naturopathy & Yogic Sciences)</p>
@@ -211,21 +244,21 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                {/* Floating Badge */}
+                {/* Floating Experience Badge */}
                 <motion.div
-                  animate={{ y: [0, -8, 0] }}
+                  animate={{ y: [0, -6, 0] }}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -bottom-6 -left-6 bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-xl border border-medical-100 hidden sm:flex items-center gap-3"
+                  className="absolute -bottom-5 -left-5 bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-2xl border border-medical-100 hidden sm:flex items-center gap-3"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-medical-100 flex items-center justify-center text-medical-700">
+                  <div className="w-10 h-10 rounded-xl bg-medical-700 flex items-center justify-center text-white">
                     <Award className="w-5 h-5" />
                   </div>
                   <div>
-                    <div className="text-lg font-bold text-medical-900">15+ Debate Awards</div>
+                    <div className="text-sm font-bold text-medical-900">15+ Debate Awards</div>
                     <div className="text-[11px] text-gray-600">Nationally Recognized Speaker</div>
                   </div>
                 </motion.div>
-              </div>
+              </motion.div>
             </motion.div>
           </div>
 
@@ -233,32 +266,34 @@ export default function HomePage() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.7 }}
+            transition={{ delay: 0.4, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             className="mt-16 sm:mt-24 grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"
           >
             {stats.map((stat, index) => (
-              <div
+              <motion.div
                 key={index}
-                className="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-5 text-center hover:bg-white/20 transition-all hover:-translate-y-1"
+                whileHover={{ y: -4, scale: 1.02 }}
+                transition={{ duration: 0.2 }}
+                className="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-5 text-center transition-all"
               >
                 <stat.icon className="w-7 h-7 text-medical-300 mx-auto mb-2" />
                 <div className="text-2xl sm:text-3xl font-bold text-white mb-0.5">
                   {stat.value}
                 </div>
                 <div className="text-xs sm:text-sm text-medical-100/85">{stat.label}</div>
-              </div>
+              </motion.div>
             ))}
           </motion.div>
         </div>
       </section>
 
-      {/* About Teaser */}
-      <section className="py-20 md:py-28 bg-surface/50">
+      {/* About Teaser Section */}
+      <section className="py-20 md:py-28 bg-surface/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <ScrollReveal3D>
+            <ScrollReveal3D direction="right">
               <div className="relative">
-                <div className="rounded-3xl overflow-hidden shadow-card border border-medical-100">
+                <div className="rounded-3xl overflow-hidden shadow-card border border-medical-100/80">
                   <Image
                     src="/assets/clinic.jpg"
                     alt="Nidarsanam Health Care"
@@ -294,30 +329,31 @@ export default function HomePage() {
                 <p className="text-gray-600 leading-relaxed mb-8 text-sm sm:text-base">
                   Our integrative approach combines traditional Indian nutritional wisdom, hydrotherapy, acupuncture, and therapeutic yoga to reverse lifestyle disorders such as diabetes, hypertension, arthritis, and obesity at their root cause.
                 </p>
+
                 <div className="grid sm:grid-cols-2 gap-4 mb-8">
                   {features.slice(0, 2).map((feature, i) => (
-                    <div
-                      key={i}
-                      className="flex items-start gap-3 p-4 rounded-xl bg-white border border-medical-100 shadow-soft"
-                    >
-                      <div className="w-9 h-9 rounded-lg bg-medical-50 flex items-center justify-center shrink-0">
-                        <feature.icon className="w-5 h-5 text-medical-700" />
+                    <GlowCard key={i} className="p-4">
+                      <div className="flex items-start gap-3">
+                        <div className="w-9 h-9 rounded-lg bg-medical-50 flex items-center justify-center shrink-0">
+                          <feature.icon className="w-5 h-5 text-medical-700" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-medical-900 text-sm mb-1">
+                            {feature.title}
+                          </h4>
+                          <p className="text-xs text-gray-600 leading-normal">{feature.description}</p>
+                        </div>
                       </div>
-                      <div>
-                        <h4 className="font-semibold text-medical-900 text-sm mb-1">
-                          {feature.title}
-                        </h4>
-                        <p className="text-xs text-gray-600 leading-normal">{feature.description}</p>
-                      </div>
-                    </div>
+                    </GlowCard>
                   ))}
                 </div>
+
                 <Link
                   href="/about"
-                  className="inline-flex items-center gap-2 text-medical-700 font-bold hover:text-medical-900 transition-colors text-sm"
+                  className="inline-flex items-center gap-2 text-medical-700 font-bold hover:text-medical-900 transition-colors text-sm group"
                 >
                   Discover Our Story
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </ScrollReveal3D>
             </div>
@@ -336,14 +372,10 @@ export default function HomePage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {treatments.map((treatment, index) => (
-              <ScrollReveal3D key={index} delay={index * 0.08}>
-                <motion.div
-                  whileHover={{ y: -6 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                  className="group bg-surface/40 rounded-2xl p-7 border border-medical-100 hover:border-medical-300 hover:bg-white hover:shadow-card transition-all duration-300 h-full flex flex-col justify-between"
-                >
+              <ScrollReveal3D key={index} delay={index * 0.07}>
+                <GlowCard className="h-full p-7 flex flex-col justify-between group">
                   <div>
-                    <div className="w-12 h-12 rounded-xl bg-medical-700 text-white flex items-center justify-center mb-5 shadow-sm group-hover:scale-105 transition-transform">
+                    <div className="w-12 h-12 rounded-xl bg-medical-700 text-white flex items-center justify-center mb-5 shadow-sm group-hover:scale-110 transition-transform duration-300">
                       <treatment.icon className="w-6 h-6" />
                     </div>
                     <h3 className="text-xl font-bold text-medical-900 mb-2.5">
@@ -357,16 +389,16 @@ export default function HomePage() {
                     <span>Explore Treatment</span>
                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </div>
-                </motion.div>
+                </GlowCard>
               </ScrollReveal3D>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Why Choose Us */}
+      {/* Why Choose Us Section */}
       <section className="py-20 md:py-28 gradient-green relative overflow-hidden text-white">
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
           <SectionHeading
             subtitle="Why Choose Us"
             title="The Nidarsanam Difference"
@@ -375,8 +407,12 @@ export default function HomePage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((feature, index) => (
-              <ScrollReveal3D key={index} delay={index * 0.1}>
-                <div className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/15 hover:bg-white/20 transition-all hover:scale-[1.02]">
+              <ScrollReveal3D key={index} delay={index * 0.08}>
+                <motion.div
+                  whileHover={{ y: -4, scale: 1.02 }}
+                  transition={{ duration: 0.2 }}
+                  className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/15 transition-all"
+                >
                   <div className="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center mb-4 text-medical-200">
                     <feature.icon className="w-6 h-6" />
                   </div>
@@ -384,7 +420,7 @@ export default function HomePage() {
                     {feature.title}
                   </h3>
                   <p className="text-medical-100/80 text-xs leading-relaxed">{feature.description}</p>
-                </div>
+                </motion.div>
               </ScrollReveal3D>
             ))}
           </div>
@@ -402,8 +438,8 @@ export default function HomePage() {
 
           <div className="grid md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
-              <ScrollReveal3D key={index} delay={index * 0.12}>
-                <div className="bg-white rounded-2xl p-7 shadow-soft hover:shadow-card transition-all duration-300 border border-medical-100 h-full flex flex-col justify-between">
+              <ScrollReveal3D key={index} delay={index * 0.1}>
+                <GlowCard className="h-full p-7 flex flex-col justify-between">
                   <div>
                     <div className="flex gap-1 mb-4">
                       {[...Array(testimonial.rating)].map((_, i) => (
@@ -428,18 +464,18 @@ export default function HomePage() {
                       <p className="text-xs text-gray-500">{testimonial.role}</p>
                     </div>
                   </div>
-                </div>
+                </GlowCard>
               </ScrollReveal3D>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* Call to Action Banner */}
       <section className="py-16 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal3D>
-            <div className="relative rounded-3xl overflow-hidden gradient-green p-8 sm:p-14 text-center text-white shadow-2xl">
+            <div className="relative rounded-3xl overflow-hidden gradient-hero p-8 sm:p-14 text-center text-white shadow-2xl">
               <div className="relative z-10 max-w-2xl mx-auto">
                 <h2 className="text-3xl sm:text-4xl font-bold mb-4 font-display">
                   Ready to Start Your Healing Journey?
@@ -448,20 +484,25 @@ export default function HomePage() {
                   Book an appointment today and take the first step towards a healthier, medication-free life.
                 </p>
                 <div className="flex flex-wrap justify-center gap-4">
-                  <Link
-                    href="/appointments"
-                    className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-white text-medical-900 font-bold text-sm shadow-lg hover:bg-medical-50 transition-all"
-                  >
-                    <Calendar className="w-4 h-4 text-medical-700" />
-                    Book Appointment
-                  </Link>
-                  <a
-                    href="tel:9952338765"
-                    className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border-2 border-white/30 text-white font-semibold text-sm hover:bg-white/10 transition-all"
-                  >
-                    <Phone className="w-4 h-4 text-medical-300" />
-                    Call: 9952338765
-                  </a>
+                  <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
+                    <Link
+                      href="/appointments"
+                      className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-white text-medical-950 font-bold text-sm shadow-lg hover:bg-medical-50 transition-all"
+                    >
+                      <Calendar className="w-4 h-4 text-medical-700" />
+                      Book Appointment
+                    </Link>
+                  </motion.div>
+
+                  <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
+                    <a
+                      href="tel:9952338765"
+                      className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border-2 border-white/30 text-white font-semibold text-sm hover:bg-white/10 transition-all"
+                    >
+                      <Phone className="w-4 h-4 text-medical-300" />
+                      Call: 9952338765
+                    </a>
+                  </motion.div>
                 </div>
               </div>
             </div>

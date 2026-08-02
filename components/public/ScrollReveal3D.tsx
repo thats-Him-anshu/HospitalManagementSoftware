@@ -1,43 +1,57 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
+import { ReactNode } from "react";
 
 interface ScrollReveal3DProps {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
   delay?: number;
+  direction?: "up" | "down" | "left" | "right" | "none";
 }
 
 export default function ScrollReveal3D({
   children,
   className = "",
   delay = 0,
+  direction = "up",
 }: ScrollReveal3DProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "center center"],
-  });
+  const getInitialPosition = () => {
+    switch (direction) {
+      case "up":
+        return { y: 32, x: 0 };
+      case "down":
+        return { y: -32, x: 0 };
+      case "left":
+        return { x: 32, y: 0 };
+      case "right":
+        return { x: -32, y: 0 };
+      default:
+        return { x: 0, y: 0 };
+    }
+  };
 
-  const rotateX = useTransform(scrollYProgress, [0, 1], [45, 0]);
-  const rotateY = useTransform(scrollYProgress, [0, 1], [-15, 0]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 0.5, 1]);
-  const scale = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
-  const y = useTransform(scrollYProgress, [0, 1], [100, 0]);
+  const initialPos = getInitialPosition();
 
   return (
     <motion.div
-      ref={ref}
-      style={{
-        rotateX,
-        rotateY,
-        opacity,
-        scale,
-        y,
-        transformPerspective: 1000,
+      initial={{
+        opacity: 0,
+        scale: 0.97,
+        ...initialPos,
       }}
-      transition={{ delay, duration: 0.8, ease: "easeOut" }}
+      whileInView={{
+        opacity: 1,
+        scale: 1,
+        x: 0,
+        y: 0,
+      }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{
+        duration: 0.7,
+        delay: delay,
+        ease: [0.16, 1, 0.3, 1], // Modern Apple/Linear style cubic bezier
+      }}
       className={className}
     >
       {children}

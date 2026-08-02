@@ -11,10 +11,10 @@ import {
   Clock,
   Shield,
   Stethoscope,
-  CheckCircle2,
 } from "lucide-react";
 import ScrollReveal3D from "@/components/public/ScrollReveal3D";
 import SectionHeading from "@/components/public/SectionHeading";
+import GlowCard from "@/components/public/GlowCard";
 
 const values = [
   {
@@ -50,19 +50,20 @@ export default function AboutPage() {
   return (
     <>
       {/* Page Header */}
-      <section className="pt-32 pb-16 gradient-hero text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="pt-32 pb-16 gradient-hero text-white relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <motion.h1
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 font-display"
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 font-display tracking-tight"
           >
             About Nidarsanam Health Care
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 }}
+            transition={{ delay: 0.12, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             className="text-base sm:text-lg text-medical-100/90 max-w-2xl mx-auto"
           >
             The Path to Real Health — Reversing lifestyle diseases naturally through BNYS Naturopathy & Yogic Sciences.
@@ -74,7 +75,7 @@ export default function AboutPage() {
       <section className="py-20 md:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
-            <ScrollReveal3D>
+            <ScrollReveal3D direction="right">
               <div className="relative rounded-3xl overflow-hidden shadow-card border border-medical-100">
                 <Image
                   src="/assets/clinic.jpg"
@@ -99,21 +100,23 @@ export default function AboutPage() {
                 <p className="text-gray-600 leading-relaxed mb-8 text-sm sm:text-base">
                   Over the years, our clinic has successfully treated over 500 patients suffering from diabetes, hypertension, neck & joint pain, obesity, and digestive disorders through personalized Naturopathy, Acupuncture, and therapeutical yoga.
                 </p>
+
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <div className="p-5 rounded-2xl bg-surface border border-medical-100">
+                  <GlowCard className="p-5">
                     <Target className="w-7 h-7 text-medical-700 mb-2" />
                     <h4 className="font-bold text-medical-900 text-base mb-1">Our Mission</h4>
                     <p className="text-xs text-gray-600 leading-normal">
                       To provide accessible, high-quality Naturopathy & Yogic Science care that addresses the root cause of diseases.
                     </p>
-                  </div>
-                  <div className="p-5 rounded-2xl bg-surface border border-medical-100">
+                  </GlowCard>
+
+                  <GlowCard className="p-5">
                     <Eye className="w-7 h-7 text-medical-700 mb-2" />
                     <h4 className="font-bold text-medical-900 text-base mb-1">Our Vision</h4>
                     <p className="text-xs text-gray-600 leading-normal">
                       To be India's leading Naturopathy center, enabling medication-free living through natural lifestyle medicine.
                     </p>
-                  </div>
+                  </GlowCard>
                 </div>
               </ScrollReveal3D>
             </div>
@@ -127,7 +130,7 @@ export default function AboutPage() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map((value, index) => (
               <ScrollReveal3D key={index} delay={index * 0.08}>
-                <div className="text-center p-7 rounded-2xl bg-surface border border-medical-100 hover:shadow-card transition-all hover:-translate-y-1">
+                <GlowCard className="h-full p-7 text-center">
                   <div className="w-14 h-14 rounded-2xl bg-medical-700 text-white flex items-center justify-center mx-auto mb-4 shadow-sm">
                     <value.icon className="w-7 h-7" />
                   </div>
@@ -135,7 +138,7 @@ export default function AboutPage() {
                     {value.title}
                   </h3>
                   <p className="text-xs text-gray-600 leading-relaxed">{value.description}</p>
-                </div>
+                </GlowCard>
               </ScrollReveal3D>
             ))}
           </div>
@@ -143,7 +146,7 @@ export default function AboutPage() {
       </section>
 
       {/* Doctor Profile */}
-      <section className="py-20 md:py-28 bg-surface/50">
+      <section className="py-20 md:py-28 bg-surface/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-1">
@@ -165,7 +168,7 @@ export default function AboutPage() {
                     (tag) => (
                       <span
                         key={tag}
-                        className="px-3.5 py-1.5 rounded-full bg-medical-100 text-medical-900 text-xs font-semibold"
+                        className="px-3.5 py-1.5 rounded-full bg-medical-100/90 text-medical-900 text-xs font-semibold shadow-xs"
                       >
                         {tag}
                       </span>
@@ -201,14 +204,14 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {highlights.map((item, index) => (
-              <ScrollReveal3D key={index} delay={index * 0.1}>
-                <div className="text-center p-6 sm:p-8 rounded-2xl bg-surface border border-medical-100 hover:shadow-soft transition-all">
+              <ScrollReveal3D key={index} delay={index * 0.08}>
+                <GlowCard className="p-6 sm:p-8 text-center">
                   <item.icon className="w-8 h-8 text-medical-700 mx-auto mb-3" />
                   <div className="text-2xl sm:text-3xl font-bold text-medical-900 mb-1">
                     {item.value}
                   </div>
                   <div className="text-xs sm:text-sm text-gray-600">{item.label}</div>
-                </div>
+                </GlowCard>
               </ScrollReveal3D>
             ))}
           </div>
