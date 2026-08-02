@@ -35,6 +35,8 @@ export default function LoginPage() {
       else if (session?.user?.role === "doctor") router.push("/doctor/dashboard");
       else if (session?.user?.role === "receptionist") router.push("/reception/dashboard");
       else if (session?.user?.role === "therapist") router.push("/therapist/dashboard");
+      else if (session?.user?.role === "telecaller") router.push("/telecaller/dashboard");
+      else if (session?.user?.role === "pharmacy") router.push("/pharmacy/dashboard");
       else router.push("/");
     }
   };

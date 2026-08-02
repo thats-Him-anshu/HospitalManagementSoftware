@@ -3,68 +3,81 @@
 import { useEffect, useState } from "react";
 import { DragDropContext, Droppable, Draggable, DropResult } from "@hello-pangea/dnd";
 import { Card } from "@/components/shared/Card";
-import { Phone, Mail, Edit2, CheckCircle2 } from "lucide-react";
+import { Phone, Mail, Edit2, CheckCircle2, Clock, AlertTriangle } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const COLUMNS = [
-  { id: "new", title: "New Leads", color: "border-blue-500", bg: "bg-blue-50" },
-  { id: "contacted", title: "Contacted", color: "border-purple-500", bg: "bg-purple-50" },
+  { id: "new", title: "New", color: "border-blue-500", bg: "bg-blue-50" },
   { id: "follow-up", title: "Follow Up", color: "border-orange-500", bg: "bg-orange-50" },
+  { id: "callback", title: "Callback", color: "border-yellow-500", bg: "bg-yellow-50" },
+  { id: "booking", title: "Booking", color: "border-purple-500", bg: "bg-purple-50" },
   { id: "converted", title: "Converted", color: "border-green-500", bg: "bg-green-50" },
-  { id: "lost", title: "Lost", color: "border-red-500", bg: "bg-red-50" },
+  { id: "rejected", title: "Rejected", color: "border-red-500", bg: "bg-red-50" },
 ];
 
-export default function LeadKanbanBoard({ 
-  leads, 
-  onStatusChange, 
-  onEdit 
-}: { 
-  leads: any[], 
-  onStatusChange: (id: string, newStatus: string) => void,
-  onEdit: (lead: any) => void 
+function getUrgencyColor(followUpDate?: string) {
+  if (!followUpDate) return "";
+  const now = new Date();
+  const fup = new Date(followUpDate);
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const fupDay = new Date(fup.getFullYear(), fup.getMonth(), fup.getDate());
+
+  if (fupDay < today) return "ring-2 ring-red-400";
+  if (fupDay.getTime() === today.getTime()) return "ring-2 ring-yellow-400";
+  return "ring-2 ring-green-300";
+}
+
+export default function LeadKanbanBoard({
+  leads,
+  onStatusChange,
+  onEdit,
+}: {
+  leads: any[];
+  onStatusChange: (id: string, newStatus: string) => void;
+  onEdit: (lead: any) => void;
 }) {
   const router = useRouter();
   const [boardData, setBoardData] = useState<Record<string, any[]>>({
-    "new": [], "contacted": [], "follow-up": [], "converted": [], "lost": []
+    new: [], "follow-up": [], callback: [], booking: [], converted: [], rejected: [],
   });
   const [isMounted, setIsMounted] = useState(false);
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  useEffect(() => { setIsMounted(true); }, []);
 
   useEffect(() => {
     const newBoardData: Record<string, any[]> = {
-      "new": [], "contacted": [], "follow-up": [], "converted": [], "lost": []
+      new: [], "follow-up": [], callback: [], booking: [], converted: [], rejected: [],
     };
-    leads.forEach(lead => {
-      if (newBoardData[lead.status]) {
-        newBoardData[lead.status].push(lead);
+    leads.forEach((lead) => {
+      const status = lead.status || "new";
+      // Handle legacy statuses gracefully
+      if (newBoardData[status]) {
+        newBoardData[status].push(lead);
+      } else if (status === "contacted") {
+        newBoardData["follow-up"].push(lead);
+      } else if (status === "lost") {
+        newBoardData["rejected"].push(lead);
       } else {
-        newBoardData["new"].push(lead); // Fallback
+        newBoardData["new"].push(lead);
       }
     });
     setBoardData(newBoardData);
   }, [leads]);
 
   const onDragEnd = (result: DropResult) => {
-    const { destination, source, draggableId } = result;
-
+    const { destination, source } = result;
     if (!destination) return;
     if (destination.droppableId === source.droppableId && destination.index === source.index) return;
 
     const sourceCol = source.droppableId;
     const destCol = destination.droppableId;
 
-    // Optimistic UI update
     const newBoard = { ...boardData };
     const [movedItem] = newBoard[sourceCol].splice(source.index, 1);
     movedItem.status = destCol;
     newBoard[destCol].splice(destination.index, 0, movedItem);
-    
+
     setBoardData(newBoard);
-    
-    // API update
     if (sourceCol !== destCol) {
       onStatusChange(movedItem._id, destCol);
     }
@@ -82,16 +95,16 @@ export default function LeadKanbanBoard({
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="flex gap-4 overflow-x-auto pb-4 items-start min-h-[600px]">
+      <div className="flex gap-3 overflow-x-auto pb-4 items-start min-h-[600px]">
         {COLUMNS.map((col) => (
-          <div key={col.id} className="min-w-[300px] w-[300px] shrink-0 flex flex-col h-full">
+          <div key={col.id} className="min-w-[260px] w-[260px] shrink-0 flex flex-col h-full">
             <div className={`p-3 rounded-t-lg border-t-4 ${col.color} ${col.bg} font-semibold text-text flex items-center justify-between`}>
-              <span>{col.title}</span>
+              <span className="text-sm">{col.title}</span>
               <span className="bg-white px-2 py-0.5 rounded-full text-xs shadow-sm">
                 {boardData[col.id]?.length || 0}
               </span>
             </div>
-            
+
             <Droppable droppableId={col.id}>
               {(provided, snapshot) => (
                 <div
@@ -109,45 +122,55 @@ export default function LeadKanbanBoard({
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                           className="mb-3"
-                          style={{
-                            ...provided.draggableProps.style,
-                            opacity: snapshot.isDragging ? 0.9 : 1,
-                          }}
+                          style={{ ...provided.draggableProps.style, opacity: snapshot.isDragging ? 0.9 : 1 }}
                         >
-                          <Card className={`shadow-sm border-border hover:shadow-md transition-shadow bg-white ${snapshot.isDragging ? 'shadow-lg ring-2 ring-primary/50' : ''}`}>
-                            <div className="p-4">
+                          <Card className={`shadow-sm border-border hover:shadow-md transition-shadow bg-white ${snapshot.isDragging ? "shadow-lg ring-2 ring-primary/50" : ""} ${getUrgencyColor(lead.followUpDate)}`}>
+                            <div className="p-3">
                               <div className="flex justify-between items-start mb-2">
-                                <h4 className="font-medium text-text">{lead.name}</h4>
+                                <h4 className="font-medium text-sm text-text">{lead.name}</h4>
                                 <div className="flex gap-1">
-                                  {col.id === "converted" && (
-                                    <button 
+                                  {(col.id === "converted" || col.id === "booking") && (
+                                    <button
                                       onClick={() => handleConvertToPatient(lead)}
                                       className="text-success hover:bg-success/10 p-1 rounded transition-colors"
-                                      title={lead.convertedToPatient ? "View Patient" : "Complete Registration"}
+                                      title={lead.convertedToPatient ? "View Patient" : "Register Patient"}
                                     >
-                                      <CheckCircle2 className="h-4 w-4" />
+                                      <CheckCircle2 className="h-3.5 w-3.5" />
                                     </button>
                                   )}
-                                  <button onClick={() => onEdit(lead)} className="text-text-muted hover:text-primary hover:bg-surface p-1 rounded transition-colors">
-                                    <Edit2 className="h-4 w-4" />
+                                  <button onClick={() => onEdit(lead)} className="text-text-muted hover:text-primary p-1 rounded transition-colors">
+                                    <Edit2 className="h-3.5 w-3.5" />
                                   </button>
                                 </div>
                               </div>
                               <div className="space-y-1 text-xs text-text-muted">
-                                <div className="flex items-center gap-2">
+                                <div className="flex items-center gap-1.5">
                                   <Phone className="h-3 w-3" /> {lead.phone}
                                 </div>
                                 {lead.email && (
-                                  <div className="flex items-center gap-2">
-                                    <Mail className="h-3 w-3" /> {lead.email}
+                                  <div className="flex items-center gap-1.5">
+                                    <Mail className="h-3 w-3" /> <span className="truncate">{lead.email}</span>
+                                  </div>
+                                )}
+                                {lead.assignedTo?.name && (
+                                  <div className="text-[10px] text-purple-600 font-medium mt-1">
+                                    → {lead.assignedTo.name}
                                   </div>
                                 )}
                               </div>
-                              {lead.interest && (
-                                <div className="mt-3 inline-block px-2 py-1 bg-surface text-[10px] font-medium rounded-sm truncate max-w-full">
-                                  {lead.interest}
-                                </div>
-                              )}
+                              <div className="flex items-center gap-2 mt-2">
+                                {lead.interest && (
+                                  <span className="inline-block px-2 py-0.5 bg-surface text-[10px] font-medium rounded-sm truncate">
+                                    {lead.interest}
+                                  </span>
+                                )}
+                                {lead.followUpDate && (
+                                  <span className="flex items-center gap-1 text-[10px] text-text-muted">
+                                    <Clock className="h-2.5 w-2.5" />
+                                    {new Date(lead.followUpDate).toLocaleDateString()}
+                                  </span>
+                                )}
+                              </div>
                             </div>
                           </Card>
                         </div>

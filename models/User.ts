@@ -4,7 +4,7 @@ export interface IUser extends Document {
   name: string;
   email: string;
   password?: string;
-  role: "admin" | "doctor" | "receptionist" | "therapist";
+  role: "admin" | "doctor" | "receptionist" | "therapist" | "telecaller" | "pharmacy";
   phone?: string;
   profileImage?: string;
   speciality?: string;
@@ -22,10 +22,10 @@ const UserSchema = new Schema<IUser>(
   {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    password: { type: String }, // optional for future OAuth or cases where it's set later
+    password: { type: String },
     role: {
       type: String,
-      enum: ["admin", "doctor", "receptionist", "therapist"],
+      enum: ["admin", "doctor", "receptionist", "therapist", "telecaller", "pharmacy"],
       required: true,
     },
     phone: { type: String },

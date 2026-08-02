@@ -26,7 +26,7 @@ export default function ThankYouPage() {
     <section className="min-h-screen bg-bg bg-leaf-pattern flex items-center justify-center px-4 py-20">
       <div className="max-w-lg w-full bg-white rounded-3xl p-10 sm:p-14 border border-border/50 shadow-xl text-center">
         <div className="relative h-16 w-16 mx-auto mb-6">
-          <Image src="/assets/logo.png" alt="NIDARSANAM HEALTH CARE" fill className="object-contain" />
+          <Image src="/assets/logo.PNG" alt="Nidarsanam Health Care" fill className="object-contain" />
         </div>
         <h2 className="text-xl font-display font-bold text-primary uppercase tracking-wider">NIDARSANAM HEALTH CARE</h2>
         <p className="text-xs text-text-muted uppercase tracking-widest mt-1">Natural Healing. Real Results.</p>

@@ -6,6 +6,9 @@ export interface IAttendance extends Document {
   status: "Present" | "Absent" | "Leave" | "Half-Day";
   checkIn?: Date;
   checkOut?: Date;
+  loggedInAt?: Date;
+  loggedOutAt?: Date;
+  isCurrentlyLoggedIn: boolean;
   notes?: string;
   createdAt: Date;
   updatedAt: Date;
@@ -22,6 +25,9 @@ const AttendanceSchema = new Schema<IAttendance>(
     },
     checkIn: { type: Date },
     checkOut: { type: Date },
+    loggedInAt: { type: Date },
+    loggedOutAt: { type: Date },
+    isCurrentlyLoggedIn: { type: Boolean, default: false },
     notes: { type: String },
   },
   { timestamps: true }

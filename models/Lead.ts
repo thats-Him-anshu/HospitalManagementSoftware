@@ -6,9 +6,10 @@ export interface ILead extends Document {
   email?: string;
   source: "website" | "walkin" | "referral" | "google" | "facebook" | "instagram" | "other";
   interest?: string;
-  status: "new" | "contacted" | "follow-up" | "converted" | "lost";
+  status: "new" | "follow-up" | "callback" | "booking" | "converted" | "rejected";
   notes: string[];
   followUpDate?: Date;
+  callbackDate?: Date;
   assignedTo?: mongoose.Types.ObjectId;
   convertedToPatient?: mongoose.Types.ObjectId;
   createdAt: Date;
@@ -28,11 +29,12 @@ const LeadSchema = new Schema<ILead>(
     interest: { type: String },
     status: {
       type: String,
-      enum: ["new", "contacted", "follow-up", "converted", "lost"],
+      enum: ["new", "follow-up", "callback", "booking", "converted", "rejected"],
       default: "new",
     },
     notes: [{ type: String }],
     followUpDate: { type: Date },
+    callbackDate: { type: Date },
     assignedTo: { type: Schema.Types.ObjectId, ref: "User" },
     convertedToPatient: { type: Schema.Types.ObjectId, ref: "Patient" },
   },

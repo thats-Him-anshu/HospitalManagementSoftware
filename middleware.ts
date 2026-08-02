@@ -18,6 +18,12 @@ export default withAuth(
     if (path.startsWith("/therapist") && token?.role !== "therapist") {
       return NextResponse.rewrite(new URL("/login", req.url));
     }
+    if (path.startsWith("/telecaller") && token?.role !== "telecaller") {
+      return NextResponse.rewrite(new URL("/login", req.url));
+    }
+    if (path.startsWith("/pharmacy") && token?.role !== "pharmacy") {
+      return NextResponse.rewrite(new URL("/login", req.url));
+    }
   },
   {
     callbacks: {
@@ -27,5 +33,12 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/admin/:path*", "/doctor/:path*", "/reception/:path*", "/therapist/:path*"],
+  matcher: [
+    "/admin/:path*",
+    "/doctor/:path*",
+    "/reception/:path*",
+    "/therapist/:path*",
+    "/telecaller/:path*",
+    "/pharmacy/:path*",
+  ],
 };

@@ -18,74 +18,79 @@ import ScrollReveal3D from "@/components/public/ScrollReveal3D";
 
 const blogPosts = [
   {
-    slug: "benefits-acupuncture-chronic-pain",
-    title: "The Science Behind Acupuncture for Chronic Pain Relief",
+    slug: "reversing-diabetes-naturopathy-diet",
+    title: "Reversing Diabetes Through Naturopathy & Traditional Indian Foods",
     content: `
-      <p>Acupuncture, a cornerstone of Traditional Chinese Medicine, has been practiced for thousands of years. Today, modern science is catching up to what practitioners have long known: acupuncture is a powerful tool for managing chronic pain.</p>
+      <p>Diabetes is primarily a lifestyle and metabolic disorder rather than an incurable lifelong sentence. In Naturopathy, we focus on restoring normal pancreatic function and insulin sensitivity by removing metabolic waste (toxins) from the body.</p>
       
-      <h3>How Does Acupuncture Work?</h3>
-      <p>Research suggests that acupuncture stimulates the nervous system, triggering the release of endorphins and other neurochemicals. These natural painkillers help reduce inflammation and promote healing throughout the body.</p>
+      <h3>The Role of Traditional Indian Foods</h3>
+      <p>Unpolished millets, raw vegetable juices, herbal decoctions, and traditional Indian whole foods play a crucial role in regulating blood glucose levels. Foods such as fenugreek seeds, bitter gourd, curry leaves, and amla possess potent anti-diabetic properties.</p>
       
-      <h3>Conditions Treated</h3>
-      <p>Studies have shown acupuncture to be effective for lower back pain, osteoarthritis, migraines, and fibromyalgia. At Nidarsanam, we've seen remarkable results in patients who had previously found little relief from conventional treatments.</p>
+      <h3>Hydrotherapy & Detoxification</h3>
+      <p>Naturopathic treatments like cold abdominal packs, mud baths, and steam baths enhance peripheral circulation and stimulate pancreatic microcirculation, accelerating cellular glucose uptake.</p>
       
-      <h3>The Nidarsanam Approach</h3>
-      <p>Our licensed acupuncturists combine traditional techniques with modern understanding of anatomy and physiology. Each treatment is tailored to the individual, ensuring optimal results.</p>
+      <h3>Long-term Benefits</h3>
+      <p>By combining dietary discipline with daily yogic practices, patients can gradually reduce dependence on external medications while achieving stable blood sugar levels naturally.</p>
+    `,
+    image: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=1200&h=600&fit=crop",
+    date: "August 1, 2026",
+    category: "Diet & Nutrition",
+    readTime: "5 min read",
+    author: "Dr. Nidarsin",
+    authorRole: "BNYS Naturopathy Doctor",
+    authorImage: "/assets/doctor-nidarsin.jpg",
+  },
+  {
+    slug: "acupuncture-science-chronic-pain-relief",
+    title: "The Healing Science Behind Acupuncture for Chronic Pain",
+    content: `
+      <p>Acupuncture is an ancient healing art that involves inserting ultra-fine sterile needles into specific anatomical points (meridians) across the human body.</p>
       
-      <p>Whether you're dealing with persistent back pain, joint issues, or neuropathic pain, acupuncture may offer the relief you've been seeking.</p>
+      <h3>How Acupuncture Relieves Pain</h3>
+      <p>Stimulating acupuncture points activates the central nervous system, prompting the release of endorphins (the body's natural painkillers) and anti-inflammatory neurotransmitters. This reduces pain perception and relaxes tense muscular structures.</p>
+      
+      <h3>Conditions Effectively Treated</h3>
+      <p>Acupuncture has proven exceptionally effective for cervical spondylosis, lumbar disk pain, knee osteoarthritis, sciatica, and chronic migraine headaches.</p>
     `,
     image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1200&h=600&fit=crop",
-    date: "May 5, 2026",
+    date: "July 25, 2026",
     category: "Acupuncture",
-    readTime: "5 min read",
-    author: "Dr. Sarah Lin",
-    authorRole: "Lead Acupuncturist",
-    authorImage: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=100&h=100&fit=crop",
-  },
-  {
-    slug: "holistic-approach-mental-health",
-    title: "A Holistic Approach to Mental Health and Wellness",
-    content: `<p>Mental health is not just about the mind—it's about the entire body. At Nidarsanam, we believe in treating mental health through an integrative lens.</p>`,
-    image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&h=600&fit=crop",
-    date: "April 28, 2026",
-    category: "Wellness",
-    readTime: "7 min read",
-    author: "Dr. Michael Chen",
-    authorRole: "Integrative Medicine",
-    authorImage: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=100&h=100&fit=crop",
-  },
-  {
-    slug: "yoga-therapy-recovery",
-    title: "Yoga Therapy: A Path to Physical Recovery",
-    content: `<p>Yoga therapy goes beyond typical yoga classes. It's a personalized approach to healing that addresses specific physical conditions and injuries.</p>`,
-    image: "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=1200&h=600&fit=crop",
-    date: "April 20, 2026",
-    category: "Yoga Therapy",
     readTime: "6 min read",
-    author: "Emma Williams",
-    authorRole: "Yoga Therapist",
-    authorImage: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop",
+    author: "Dr. Nidarsin",
+    authorRole: "BNYS Naturopathy Doctor",
+    authorImage: "/assets/doctor-nidarsin.jpg",
+  },
+  {
+    slug: "therapeutical-yoga-thyroid-hormonal-balance",
+    title: "Therapeutical Yoga: Specific Asanas for Thyroid & Hormonal Balance",
+    content: `
+      <p>Therapeutical yoga differs from generic yoga practice by tailoring specific postures (asanas), breathing exercises (pranayama), and relaxation routines to treat medical conditions.</p>
+      
+      <h3>Stimulating the Thyroid Gland</h3>
+      <p>Postures such as Sarvangasana (Shoulder Stand), Matsyasana (Fish Pose), and Ujjayi Pranayama create targeted compression and flushing of the thyroid gland, regulating T3, T4, and TSH secretion.</p>
+    `,
+    image: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=1200&h=600&fit=crop",
+    date: "July 18, 2026",
+    category: "Yoga Therapy",
+    readTime: "7 min read",
+    author: "Dr. Nidarsin",
+    authorRole: "BNYS Naturopathy Doctor",
+    authorImage: "/assets/doctor-nidarsin.jpg",
   },
 ];
 
 const relatedPosts = [
   {
-    slug: "naturopathy-immune-system",
-    title: "Boosting Your Immune System Naturally",
+    slug: "hydrotherapy-detoxification-body-healing",
+    title: "Hydrotherapy & Detoxification: How Water Heals the Body",
     image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=250&fit=crop",
-    date: "April 15, 2026",
+    date: "July 10, 2026",
   },
   {
-    slug: "understanding-physiotherapy",
-    title: "Understanding Physiotherapy: Beyond Exercise",
-    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=250&fit=crop",
-    date: "April 8, 2026",
-  },
-  {
-    slug: "pain-management-techniques",
-    title: "Modern Pain Management Techniques",
-    image: "https://images.unsplash.com/photo-1559757175-5700dde675bc?w=400&h=250&fit=crop",
-    date: "March 30, 2026",
+    slug: "understanding-naturopathy-root-cause-healing",
+    title: "Understanding Naturopathy: Root-Cause Disease Healing",
+    image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400&h=250&fit=crop",
+    date: "June 28, 2026",
   },
 ];
 
@@ -97,7 +102,7 @@ export default function BlogPostPage() {
 
   return (
     <>
-      <section className="pt-32 pb-16 gradient-green">
+      <section className="pt-32 pb-16 gradient-hero text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -105,20 +110,20 @@ export default function BlogPostPage() {
           >
             <Link
               href="/blog"
-              className="inline-flex items-center gap-2 text-earth-200 hover:text-white transition-colors mb-6"
+              className="inline-flex items-center gap-2 text-medical-200 hover:text-white transition-colors mb-6 text-sm"
             >
               <ArrowLeft className="w-4 h-4" />
-              Back to Blog
+              Back to Health Blog
             </Link>
-            <span className="inline-block px-3 py-1 rounded-full bg-white/10 text-medical-300 text-sm font-medium mb-4">
+            <span className="inline-block px-3 py-1 rounded-full bg-white/10 text-medical-200 text-xs font-semibold mb-4">
               {post.category}
             </span>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 font-display leading-tight">
               {post.title}
             </h1>
-            <div className="flex flex-wrap items-center gap-6 text-earth-200">
+            <div className="flex flex-wrap items-center gap-6 text-medical-100/90 text-xs sm:text-sm">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full overflow-hidden">
+                <div className="w-10 h-10 rounded-full overflow-hidden border border-white/20">
                   <Image
                     src={post.authorImage}
                     alt={post.author}
@@ -128,17 +133,17 @@ export default function BlogPostPage() {
                   />
                 </div>
                 <div>
-                  <div className="font-medium text-white">{post.author}</div>
-                  <div className="text-sm">{post.authorRole}</div>
+                  <div className="font-semibold text-white">{post.author}</div>
+                  <div className="text-xs text-medical-200">{post.authorRole}</div>
                 </div>
               </div>
-              <div className="flex items-center gap-4 text-sm">
+              <div className="flex items-center gap-4 text-xs">
                 <span className="flex items-center gap-1">
-                  <Calendar className="w-4 h-4" />
+                  <Calendar className="w-4 h-4 text-medical-300" />
                   {post.date}
                 </span>
                 <span className="flex items-center gap-1">
-                  <Clock className="w-4 h-4" />
+                  <Clock className="w-4 h-4 text-medical-300" />
                   {post.readTime}
                 </span>
               </div>
@@ -150,7 +155,7 @@ export default function BlogPostPage() {
       <article className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal3D>
-            <div className="relative h-64 md:h-96 rounded-2xl overflow-hidden mb-12 shadow-2xl">
+            <div className="relative h-64 md:h-96 rounded-2xl overflow-hidden mb-12 shadow-card border border-medical-100">
               <Image
                 src={post.image}
                 alt={post.title}
@@ -164,36 +169,20 @@ export default function BlogPostPage() {
             <div className="lg:col-span-2">
               <ScrollReveal3D>
                 <div
-                  className="prose prose-lg max-w-none prose-headings:text-medical-900 prose-headings:font-display prose-p:text-gray-600 prose-a:text-medical-600 prose-strong:text-medical-800"
+                  className="blog-content text-gray-700 text-base leading-relaxed"
                   dangerouslySetInnerHTML={{ __html: post.content }}
                 />
               </ScrollReveal3D>
 
               <ScrollReveal3D delay={0.2}>
-                <div className="mt-12 pt-8 border-t border-gray-100">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <button className="flex items-center gap-2 text-gray-500 hover:text-red-500 transition-colors">
-                        <Heart className="w-5 h-5" />
-                        <span className="text-sm">Like</span>
-                      </button>
-                      <button className="flex items-center gap-2 text-gray-500 hover:text-medical-600 transition-colors">
-                        <MessageCircle className="w-5 h-5" />
-                        <span className="text-sm">Comment</span>
-                      </button>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm text-gray-500 mr-2">Share:</span>
-                      {[Globe, LinkIcon, MessageCircle].map((Icon, i) => (
-                        <button
-                          key={i}
-                          className="w-9 h-9 rounded-full bg-earth-50 flex items-center justify-center hover:bg-medical-100 transition-colors"
-                        >
-                          <Icon className="w-4 h-4 text-gray-600" />
-                        </button>
-                      ))}
-                    </div>
-                  </div>
+                <div className="mt-12 pt-8 border-t border-gray-100 flex items-center justify-between">
+                  <span className="text-xs text-gray-500 font-medium">Nidarsanam Health Care — Patient Education</span>
+                  <Link
+                    href="/appointments"
+                    className="px-5 py-2.5 rounded-full bg-medical-700 hover:bg-medical-800 text-white text-xs font-bold transition-all shadow-sm"
+                  >
+                    Book Consultation
+                  </Link>
                 </div>
               </ScrollReveal3D>
             </div>
@@ -201,10 +190,10 @@ export default function BlogPostPage() {
             {/* Sidebar */}
             <aside className="space-y-8">
               <ScrollReveal3D delay={0.1}>
-                <div className="p-6 rounded-2xl bg-medical-50 border border-medical-100">
-                  <h3 className="font-bold text-medical-900 mb-4">About the Author</h3>
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 rounded-full overflow-hidden">
+                <div className="p-6 rounded-2xl bg-surface border border-medical-100">
+                  <h3 className="font-bold text-medical-900 text-sm mb-4">About the Author</h3>
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-12 h-12 rounded-full overflow-hidden border border-medical-200">
                       <Image
                         src={post.authorImage}
                         alt={post.author}
@@ -214,39 +203,39 @@ export default function BlogPostPage() {
                       />
                     </div>
                     <div>
-                      <div className="font-semibold text-medical-900">{post.author}</div>
-                      <div className="text-sm text-gray-600">{post.authorRole}</div>
+                      <div className="font-bold text-medical-900 text-sm">{post.author}</div>
+                      <div className="text-xs text-gray-600">{post.authorRole}</div>
                     </div>
                   </div>
-                  <p className="text-sm text-gray-600">
-                    Expert in integrative medicine with over 15 years of clinical experience.
+                  <p className="text-xs text-gray-600 leading-relaxed">
+                    Dedicated BNYS Naturopath specializing in lifestyle disease reversal, acupuncture, and natural traditional nutrition.
                   </p>
                 </div>
               </ScrollReveal3D>
 
               <ScrollReveal3D delay={0.2}>
                 <div>
-                  <h3 className="font-bold text-medical-900 mb-4">Related Articles</h3>
+                  <h3 className="font-bold text-medical-900 text-sm mb-4">Related Articles</h3>
                   <div className="space-y-4">
                     {relatedPosts.map((related) => (
                       <Link
                         key={related.slug}
-                        href={`/blog/${related.slug}`}
-                        className="flex gap-4 group"
+                        href={`/blog`}
+                        className="flex gap-3 group"
                       >
-                        <div className="relative w-20 h-20 rounded-lg overflow-hidden shrink-0">
+                        <div className="relative w-16 h-16 rounded-lg overflow-hidden shrink-0 border border-medical-100">
                           <Image
                             src={related.image}
                             alt={related.title}
                             fill
-                            className="object-cover group-hover:scale-110 transition-transform"
+                            className="object-cover group-hover:scale-105 transition-transform"
                           />
                         </div>
                         <div>
-                          <h4 className="text-sm font-semibold text-medical-900 group-hover:text-medical-600 transition-colors line-clamp-2">
+                          <h4 className="text-xs font-bold text-medical-900 group-hover:text-medical-700 transition-colors line-clamp-2 leading-snug">
                             {related.title}
                           </h4>
-                          <span className="text-xs text-gray-500 mt-1 block">
+                          <span className="text-[10px] text-gray-500 mt-1 block">
                             {related.date}
                           </span>
                         </div>

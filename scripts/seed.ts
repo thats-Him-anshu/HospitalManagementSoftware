@@ -61,7 +61,7 @@ async function seed() {
       password: doctorPassword,
       role: "doctor",
       qualification: "BNYS (Bachelor of Naturopathy & Yogic Sciences)",
-      speciality: "Naturopathy Doctor", // Mapped designation to speciality/tagline
+      speciality: "Naturopathy Doctor",
       tagline: "The Path to Real Health",
       bio: "A passionate BNYS doctor trained under experienced naturopaths, nationally award-winning, and widely recognized for delivering 15+ impactful debate sessions. With a strong belief in natural healing, helps patients reverse lifestyle disorders and manage health effectively through personalized diet, yoga, and acupuncture — achieving results without side effects.",
       profileImage: "/assets/doctor-nidarsin.jpg",
@@ -88,7 +88,27 @@ async function seed() {
       isActive: true,
     });
 
-    console.log("Created users.");
+    // Create Telecaller
+    const telecallerPassword = await bcrypt.hash("Telecaller@123", 10);
+    await User.create({
+      name: "Telecaller User",
+      email: "telecaller@nidarsanam.com",
+      password: telecallerPassword,
+      role: "telecaller",
+      isActive: true,
+    });
+
+    // Create Pharmacy Staff
+    const pharmacyPassword = await bcrypt.hash("Pharmacy@123", 10);
+    await User.create({
+      name: "Pharmacy User",
+      email: "pharmacy@nidarsanam.com",
+      password: pharmacyPassword,
+      role: "pharmacy",
+      isActive: true,
+    });
+
+    console.log("Created users (Admin, Doctor, Receptionist, Therapist, Telecaller, Pharmacy).");
 
     // Seed Treatments
     for (const treatment of treatments) {
@@ -112,10 +132,14 @@ async function seed() {
 
     console.log("\n=======================================================");
     console.log("SEEDING SUCCESSFUL!");
-    console.log("Default Admin Account:");
-    console.log("Email: nidarsanamhealthcare@gmail.com");
-    console.log("Password: Nidar@Admin123");
-    console.log("IMPORTANT: Please change this admin password immediately after logging in!");
+    console.log("=======================================================");
+    console.log("Default Accounts:");
+    console.log("  Admin:        nidarsanamhealthcare@gmail.com / Nidar@Admin123");
+    console.log("  Doctor:       doctor@hospital.com / Doctor@123");
+    console.log("  Receptionist: reception@hospital.com / Reception@123");
+    console.log("  Therapist:    therapist@hospital.com / Therapist@123");
+    console.log("  Telecaller:   telecaller@nidarsanam.com / Telecaller@123");
+    console.log("  Pharmacy:     pharmacy@nidarsanam.com / Pharmacy@123");
     console.log("=======================================================\n");
 
   } catch (error) {
