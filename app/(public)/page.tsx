@@ -164,7 +164,7 @@ export default function HomePage() {
                 <span>India's Leading Naturopathy Centre</span>
               </motion.div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.14] mb-6 font-display tracking-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.14] mb-6 font-display tracking-tight">
                 The Real Path to{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-medical-300 via-medical-200 to-white font-extrabold">
                   Health
@@ -175,11 +175,11 @@ export default function HomePage() {
                 Experience natural healing and disease reversal at Nidarsanam Health Care. Under the expert guidance of Dr. Nidarsin (BNYS), we combine Naturopathy, Acupuncture, Therapeutical Yoga, and Traditional Indian Food Diets to help you live a vibrant, medication-free life.
               </p>
 
-              <div className="flex flex-wrap items-center gap-4">
+              <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 sm:gap-4">
                 <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
                   <Link
                     href="/appointments"
-                    className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-white text-medical-950 font-bold text-sm shadow-xl hover:bg-medical-50 transition-all"
+                    className="inline-flex items-center justify-center gap-2.5 w-full sm:w-auto px-7 py-3.5 rounded-full bg-white text-medical-950 font-bold text-sm shadow-xl hover:bg-medical-50 transition-all"
                   >
                     <Calendar className="w-4 h-4 text-medical-700" />
                     Book Consultation
@@ -189,7 +189,7 @@ export default function HomePage() {
                 <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
                   <a
                     href="tel:9952338765"
-                    className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full border-2 border-white/30 text-white font-semibold text-sm hover:bg-white/10 transition-all backdrop-blur-sm"
+                    className="inline-flex items-center justify-center gap-2.5 w-full sm:w-auto px-7 py-3.5 rounded-full border-2 border-white/30 text-white font-semibold text-sm hover:bg-white/10 transition-all backdrop-blur-sm"
                   >
                     <Phone className="w-4 h-4 text-medical-300" />
                     Call: 9952338765
@@ -233,7 +233,7 @@ export default function HomePage() {
                     alt="Dr. Nidarsin at Nidarsanam Health Care"
                     width={500}
                     height={600}
-                    className="object-cover w-full h-[480px] sm:h-[540px]"
+                    className="object-cover w-full h-[320px] sm:h-[420px] md:h-[480px] lg:h-[540px]"
                     priority
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-medical-950 via-medical-950/20 to-transparent flex flex-col justify-end p-6">
@@ -299,7 +299,7 @@ export default function HomePage() {
                     alt="Nidarsanam Health Care"
                     width={600}
                     height={480}
-                    className="object-cover w-full h-[400px] sm:h-[450px]"
+                    className="object-cover w-full h-[260px] sm:h-[340px] md:h-[400px] lg:h-[450px]"
                   />
                 </div>
                 <div className="absolute -bottom-6 -right-6 bg-white rounded-2xl shadow-xl p-5 border border-medical-100 hidden sm:block">
@@ -475,19 +475,19 @@ export default function HomePage() {
       <section className="py-16 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal3D>
-            <div className="relative rounded-3xl overflow-hidden gradient-hero p-8 sm:p-14 text-center text-white shadow-2xl">
+            <div className="relative rounded-3xl overflow-hidden gradient-hero p-6 sm:p-10 md:p-14 text-center text-white shadow-2xl">
               <div className="relative z-10 max-w-2xl mx-auto">
-                <h2 className="text-3xl sm:text-4xl font-bold mb-4 font-display">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 font-display">
                   Ready to Start Your Healing Journey?
                 </h2>
                 <p className="text-base sm:text-lg text-medical-100/90 mb-8 leading-relaxed">
                   Book an appointment today and take the first step towards a healthier, medication-free life.
                 </p>
-                <div className="flex flex-wrap justify-center gap-4">
+                <div className="flex flex-col sm:flex-row flex-wrap justify-center items-stretch sm:items-center gap-3 sm:gap-4">
                   <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
                     <Link
                       href="/appointments"
-                      className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-white text-medical-950 font-bold text-sm shadow-lg hover:bg-medical-50 transition-all"
+                      className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-3.5 rounded-full bg-white text-medical-950 font-bold text-sm shadow-lg hover:bg-medical-50 transition-all"
                     >
                       <Calendar className="w-4 h-4 text-medical-700" />
                       Book Appointment
@@ -497,7 +497,7 @@ export default function HomePage() {
                   <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
                     <a
                       href="tel:9952338765"
-                      className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border-2 border-white/30 text-white font-semibold text-sm hover:bg-white/10 transition-all"
+                      className="inline-flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-3.5 rounded-full border-2 border-white/30 text-white font-semibold text-sm hover:bg-white/10 transition-all"
                     >
                       <Phone className="w-4 h-4 text-medical-300" />
                       Call: 9952338765

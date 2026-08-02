@@ -50,14 +50,14 @@ export default function Navbar() {
             </div>
             <div className="flex flex-col">
               <span
-                className={`text-lg font-bold font-display leading-tight tracking-tight ${
+                className={`text-base sm:text-lg font-bold font-display leading-tight tracking-tight ${
                   scrolled ? "text-medical-900" : "text-white"
                 }`}
               >
                 Nidarsanam <span className="text-medical-600 font-semibold">Health Care</span>
               </span>
               <span
-                className={`text-[10px] uppercase tracking-wider font-medium ${
+                className={`text-[10px] uppercase tracking-wider font-medium hidden sm:block ${
                   scrolled ? "text-medical-700" : "text-white/80"
                 }`}
               >
@@ -125,7 +125,7 @@ export default function Navbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden bg-white border-t border-medical-100 shadow-2xl overflow-hidden"
+            className="md:hidden bg-white border-t border-medical-100 shadow-2xl overflow-hidden max-h-[calc(100vh-4rem)] overflow-y-auto"
           >
             <div className="px-5 py-6 space-y-4">
               {navLinks.map((link) => (

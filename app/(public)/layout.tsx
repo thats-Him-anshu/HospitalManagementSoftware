@@ -23,7 +23,7 @@ export default function PublicLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="bg-earth-50 text-gray-900 min-h-screen flex flex-col font-sans antialiased">
+    <div className="bg-earth-50 text-gray-900 min-h-screen flex flex-col font-sans antialiased overflow-x-hidden">
       <Navbar />
       <main className="flex-grow">{children}</main>
       <Footer />

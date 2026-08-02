@@ -56,7 +56,7 @@ export default function AboutPage() {
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 font-display tracking-tight"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 font-display tracking-tight"
           >
             About Nidarsanam Health Care
           </motion.h1>
@@ -82,7 +82,7 @@ export default function AboutPage() {
                   alt="Nidarsanam Health Care, Dharmapuri"
                   width={600}
                   height={500}
-                  className="object-cover w-full h-[400px] sm:h-[480px]"
+                  className="object-cover w-full h-[260px] sm:h-[340px] md:h-[400px] lg:h-[480px]"
                 />
               </div>
             </ScrollReveal3D>
@@ -186,7 +186,7 @@ export default function AboutPage() {
                     alt="Dr. Nidarsin"
                     width={500}
                     height={600}
-                    className="object-cover w-full h-[450px]"
+                    className="object-cover w-full h-[300px] sm:h-[380px] md:h-[450px]"
                   />
                 </div>
                 <div className="absolute -bottom-5 -left-5 bg-white rounded-2xl shadow-xl p-4 border border-medical-100 hidden sm:block">
@@ -205,7 +205,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {highlights.map((item, index) => (
               <ScrollReveal3D key={index} delay={index * 0.08}>
-                <GlowCard className="p-6 sm:p-8 text-center">
+                <GlowCard className="p-4 sm:p-6 md:p-8 text-center">
                   <item.icon className="w-8 h-8 text-medical-700 mx-auto mb-3" />
                   <div className="text-2xl sm:text-3xl font-bold text-medical-900 mb-1">
                     {item.value}

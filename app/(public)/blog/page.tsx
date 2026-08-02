@@ -92,7 +92,7 @@ export default function BlogPage() {
           <motion.h1
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 font-display"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 font-display"
           >
             Health & Wellness Blog
           </motion.h1>

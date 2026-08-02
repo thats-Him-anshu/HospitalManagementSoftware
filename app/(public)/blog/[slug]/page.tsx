@@ -175,7 +175,7 @@ export default function BlogPostPage() {
               </ScrollReveal3D>
 
               <ScrollReveal3D delay={0.2}>
-                <div className="mt-12 pt-8 border-t border-gray-100 flex items-center justify-between">
+                <div className="mt-12 pt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
                   <span className="text-xs text-gray-500 font-medium">Nidarsanam Health Care — Patient Education</span>
                   <Link
                     href="/appointments"

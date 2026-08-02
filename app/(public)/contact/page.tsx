@@ -106,7 +106,7 @@ export default function ContactPage() {
           <motion.h1
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 font-display"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 font-display"
           >
             Get in Touch
           </motion.h1>
@@ -127,7 +127,7 @@ export default function ContactPage() {
             {/* Contact Form */}
             <div className="lg:col-span-7">
               <ScrollReveal3D>
-                <div className="bg-surface rounded-3xl p-8 sm:p-10 border border-medical-100 shadow-soft">
+                <div className="bg-surface rounded-3xl p-5 sm:p-8 md:p-10 border border-medical-100 shadow-soft">
                   <h2 className="text-2xl font-bold text-medical-900 mb-2">
                     Send us a Message
                   </h2>

@@ -23,7 +23,7 @@ export default function Footer() {
   return (
     <footer className="bg-medical-900 text-white pt-16 pb-8 border-t border-medical-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 mb-12">
           {/* Column 1: Brand Info */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
@@ -115,7 +115,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-medical-400 shrink-0" />
-                <a href="mailto:nidarsanamhealthcare@gmail.com" className="hover:text-white transition-colors">nidarsanamhealthcare@gmail.com</a>
+                <a href="mailto:nidarsanamhealthcare@gmail.com" className="hover:text-white transition-colors break-all sm:break-normal">nidarsanamhealthcare@gmail.com</a>
               </li>
               <li className="flex items-center gap-3">
                 <Clock className="w-5 h-5 text-medical-400 shrink-0" />
@@ -126,7 +126,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom copyright bar */}
-        <div className="border-t border-medical-800/80 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-medical-100/60">
+        <div className="border-t border-medical-800/80 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-medical-100/60 text-center md:text-left">
           <p>© {new Date().getFullYear()} Nidarsanam Health Care. All rights reserved.</p>
           <p>Naturopathy & Yogic Sciences • Dharmapuri, Tamil Nadu</p>
         </div>

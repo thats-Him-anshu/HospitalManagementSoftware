@@ -45,7 +45,7 @@ export default function SectionHeading({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
-        className={`text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight font-display ${
+        className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight font-display ${
           light ? "text-white" : "text-medical-900"
         }`}
       >
